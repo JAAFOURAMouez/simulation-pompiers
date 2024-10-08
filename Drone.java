@@ -1,14 +1,19 @@
 public class Drone extends Robot {
     public Drone (Case position){
-        super(position,250,160);
+        super(position,10000,100);
     }
-    public boolean peutsedeplacerSur(NatureTerrain terrain){
+    public boolean peutSeDeplacerSur(NatureTerrain terrain){
         return true;
     }
+    public void setVitesse(double vitesse){
+        if (vitesse>150) throw new IllegalArgumentException("la vitesse de la drone est superieure a 150km");
+        else this.vitesse=vitesse;
+    }
+    //a modifier on peut lire la vitesse 
     public void setVitesseSur(NatureTerrain terrain){
-        vitesse= 160.0;
+        vitesse= 100.0;
     }
     public int getCapaciteMaxReservoir(){
-        return 250;
+        return 10000;
     }
 }

@@ -13,7 +13,8 @@ Avancement actuel
     Case : La structure de la classe est définie avec la gestion des lignes, des colonnes, et de la nature du terrain.
     Enums : Les énumérations Direction et NatureTerrain sont bien définies, ce qui permet d’ajouter facilement des contraintes spécifiques en fonction du type de robot ou de l'interaction avec la nature du terrain.
     Robot : la classe et ses abstraites Drone, RobotAPattes ... sont presque completes
-
+    LectureDonnees : est presque finie il reste a verifier si on lit vitesse robot(j ai fais qq uns mais reste les autres).
+    
 Prochaines étapes :
     Créer des tests unitaires pour vérifier le bon fonctionnement des méthodes de gestion des voisins et des interactions entre les cases.
     commencer l'interface graphique

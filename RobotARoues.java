@@ -1,18 +1,21 @@
 public class RobotARoues extends Robot{
     public RobotARoues(Case position){
-        super(position,500,100);
+        super(position,5000,80);
     }
-    public boolean peutsedeplacerSur(NatureTerrain terrain){
+    public boolean peutSeDeplacerSur(NatureTerrain terrain){
         return terrain==NatureTerrain.TERRAIN_LIBRE||terrain==NatureTerrain.HABITAT;
     }
     public void setVitesseSur(NatureTerrain terrain){
         if (terrain==NatureTerrain.TERRAIN_LIBRE) 
-            vitesse= 100.0;
+            vitesse= 80.0;
         else if (terrain==NatureTerrain.HABITAT) 
-            vitesse= 50.0;            
+            vitesse/=2;            
         else vitesse= 0;
     }
+    public void setVitesse(int vitesse){
+        this.vitesse=vitesse;
+    }
     public int getCapaciteMaxReservoir(){
-        return 500;
+        return 5000;
     }
 }

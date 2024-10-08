@@ -17,4 +17,7 @@ public class Case {
     public int getLigne() {
         return Ligne;
     }
+    public void setNature(NatureTerrain terrain){
+        this.Nature=terrain;
+    }
 }

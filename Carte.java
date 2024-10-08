@@ -1,8 +1,8 @@
 public class Carte {
     private int TailleCases;
-    private Case[][] cases;
+    private static Case[][] cases;
     public Carte(int NbLignes,int NbColonnes){
-        this.cases=new Case[NbLignes][NbColonnes];
+        Carte.cases=new Case[NbLignes][NbColonnes];
     }
     public int getNbLignes(){
         return cases.length;
@@ -13,7 +13,10 @@ public class Carte {
     public int getTailleCases() {
         return TailleCases;
     }
-    public Case getCase(int Ligne,int Colonne){
+    public void setTailleCases(int taille){
+        this.TailleCases=taille;
+    }
+    public static Case getCase(int Ligne,int Colonne){
         return cases[Ligne][Colonne];
     }
     public boolean voisinExiste(Case src,Direction Dir){
