@@ -18,7 +18,9 @@ public class Intervention extends Evenement
     
     public void execute()
     {
-        robot.deverserEau(incendie.getIntensite());
+        int vol=incendie.getIntensite();
+        robot.deverserEau(vol);
+        incendie.eteindre(vol);
 
     }
 
