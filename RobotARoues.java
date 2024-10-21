@@ -12,7 +12,7 @@ public class RobotARoues extends Robot{
             vitesse/=2;            
         else vitesse= 0;
     }
-    public void setVitesse(int vitesse){
+    public void setVitesse(double  vitesse){
         this.vitesse=vitesse;
     }
     public int getCapaciteMaxReservoir(){
