@@ -4,6 +4,7 @@ public class Carte {
     public Carte(int NbLignes,int NbColonnes){
         Carte.cases=new Case[NbLignes][NbColonnes];
     }
+    
     public int getNbLignes(){
         return cases.length;
     }
@@ -16,8 +17,16 @@ public class Carte {
     public void setTailleCases(int taille){
         this.TailleCases=taille;
     }
-    public static Case getCase(int Ligne,int Colonne){
+    public Case getCase(int Ligne,int Colonne){
         return cases[Ligne][Colonne];
+    }
+
+    public void add_case(Case nouvellecase)
+    {
+        int i=nouvellecase.getLigne();
+        int j=nouvellecase.getColonne();
+        cases[i][j]=nouvellecase;
+        
     }
     public boolean voisinExiste(Case src,Direction Dir){
             int ligne=src.getLigne();
@@ -37,7 +46,7 @@ public class Carte {
     }
     public Case getVoisin(Case src,Direction dir){
         if (!voisinExiste(src, dir)) {
-            throw new IllegalArgumentException("Aucun direction dans cette direction");
+            throw new IllegalArgumentException("Aucun voisin dans cette direction");
         }
         switch (dir) {
             case NORD:
