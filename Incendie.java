@@ -5,6 +5,8 @@ public class Incendie {
         this.position=position;
         this.intensite=intensite;
     }
+
+
     public void eteindre(int quantiteEau){
         if(quantiteEau>0){
             this.intensite-=quantiteEau;
@@ -12,6 +14,9 @@ public class Incendie {
                 this.intensite=0;
             }
         }
+    }
+    public void setPosition(Case position) {
+        this.position = position;
     }
     public boolean estEteint(){
         return this.intensite==0;
