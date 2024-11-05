@@ -7,7 +7,7 @@ public class test_map {
             // Test de la lecture des données
             System.out.println("Début de la lecture des données...");
             
-            DonneeSimulation donnees = LectureDonnee.lire("carteSujet.map");
+            DonneeSimulation donnees = LectureDonnee.lire("hell.map");
             System.out.println("Données lues avec succès.");
 
             // Affiche les détails de la carte

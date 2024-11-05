@@ -6,6 +6,8 @@ public class Case {
         this.Ligne=Ligne;
         this.Nature=Nature;
     }
+
+
     public NatureTerrain getNature(){
         return Nature;
     }

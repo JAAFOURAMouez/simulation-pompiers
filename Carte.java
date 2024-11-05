@@ -1,10 +1,11 @@
 public class Carte {
     private int TailleCases;
     private static Case[][] cases;
+    
     public Carte(int NbLignes,int NbColonnes){
         Carte.cases=new Case[NbLignes][NbColonnes];
     }
-    
+
     public int getNbLignes(){
         return cases.length;
     }
@@ -37,7 +38,7 @@ public class Carte {
                 case SUD:
                     return ligne<getNbLignes()-1;
                 case OUEST:
-                    return colonne<0;
+                    return colonne > 0;
                 case EST:
                     return colonne<getNbColonnes()-1;
                 default:

@@ -27,6 +27,10 @@ public class Deplacement extends Evenement
         robot.deplacer(direction, carte);
 
     }
+    @Override
+    public String toString() {
+        return "Deplacement Event [Robot: " + robot + ", Direction: " + direction + ", Date: " + getDate() + "]";
+    }
 
 
 }

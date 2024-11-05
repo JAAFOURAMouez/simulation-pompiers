@@ -6,7 +6,7 @@ public class Drone extends Robot {
         return true;
     }
     public void setVitesse(double vitesse){
-        if (vitesse>150) throw new IllegalArgumentException("la vitesse de la drone est superieure a 150km");
+        if (vitesse>150) throw new IllegalArgumentException("la vitesse du drone est superieure a 150km");
         else this.vitesse=vitesse;
     }
     //a modifier on peut lire la vitesse 

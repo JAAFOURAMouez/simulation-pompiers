@@ -30,7 +30,7 @@ public class LectureDonnee {
         for(int i=0;i<nbLignes;++i){
             for(int j=0;j<nbColonnes;++j){
                 ignorerCommentaires(scanner);
-                String nature=scanner.next();// Lire la nature de chaque case
+                String nature=scanner.next();
                 NatureTerrain natureTerrain=NatureTerrain.valueOf(nature);
                 Case myCase=new Case(i,j,natureTerrain);
                 carte.add_case(myCase);
@@ -149,10 +149,11 @@ public class LectureDonnee {
 
 
     //fct qui permet d'ignorer les commentaires et les lignes vide
-public static void ignorerCommentaires(Scanner scanner) {
-    while (scanner.hasNext("#.*")) {
-        scanner.nextLine();
-    }
+    public static void ignorerCommentaires(Scanner scanner) {
+        while (scanner.hasNext("#.*")) 
+        {
+            scanner.nextLine();
+        }
 
 
 

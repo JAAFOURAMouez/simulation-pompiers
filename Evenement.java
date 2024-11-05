@@ -1,18 +1,18 @@
-abstract class Evenement
-{
+public abstract class Evenement implements Comparable<Evenement> {
     private long date;
 
-    Evenement(long date) 
-    {
-        this.date=date;
-    
+    public Evenement(long date) {
+        this.date = date;
     }
 
-    public long getDate()
-    {
+    public long getDate() {
         return date;
     }
 
-    public abstract void execute();
+    @Override
+    public int compareTo(Evenement other) {
+        return Long.compare(this.date, other.date);
+    }
 
+    public abstract void execute();
 }

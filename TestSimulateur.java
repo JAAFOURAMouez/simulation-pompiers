@@ -8,7 +8,7 @@ import org.w3c.dom.html.HTMLElement;
 public class TestSimulateur {
     public static void main(String[] args) {
         try {
-            DonneeSimulation donnes = LectureDonnee.lire("spiral.map");
+            DonneeSimulation donnes = LectureDonnee.lire("hell.map");
             Simulateur simulateur = new Simulateur(donnes);
 
             // Add movement events
@@ -18,12 +18,17 @@ public class TestSimulateur {
             Deplacement deplacerRobot1 = new Deplacement(donnes.getCarte(), robot1, Direction.NORD, 0);
 
             simulateur.ajouteEvenement(deplacerRobot1);
-
-
-
+            Incendie inc1 = donnes.geIncendies().get(0);
+            int deb=inc1.getIntensite();
+            System.err.println(deb);
             Robot robot2 = donnes.getRobots().get(1);
-            Deplacement deplacerRobot2 = new Deplacement(donnes.getCarte(), robot2, Direction.OUEST, 1);
-            simulateur.ajouteEvenement(deplacerRobot2);
+            robot2.getCapaciteMaxReservoir();
+            
+            Intervention tfi=new Intervention(robot2, inc1, 1);
+            int after=inc1.getIntensite();
+            System.err.println(after);
+
+            simulateur.ajouteEvenement(tfi);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
