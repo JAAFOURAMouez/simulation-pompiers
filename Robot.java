@@ -19,6 +19,10 @@ public abstract class Robot{
         return vitesse;
 
     }
+    public void setVitesse(double vitesse)
+    {
+        this.vitesse=vitesse;
+    }
 
     public void setPosition(Case pos){
         this.position=pos;
@@ -43,6 +47,12 @@ public abstract class Robot{
             this.getCapaciteMaxReservoir();
         }
     }
+
+    public void setReservoirEau(int nivreservoir)
+    {
+        this.reservoirEau=nivreservoir;
+    }
+
 
 
         

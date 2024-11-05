@@ -17,7 +17,13 @@ public class Simulateur implements  Simulable
     private List<Incendie> incendies;
     private List<Robot> robots;
     private List<Case> initialRobotPositions;
+    private List<Double> initialRobotvitesse;
+    private List<Integer> initialRobotReservoir;
     private List<Case> initialFirePositions;
+    private List<Integer> initialFireintensite;
+
+
+
      
     private long dateSimulation;
     private PriorityQueue<Evenement> evenements;
@@ -32,14 +38,23 @@ public class Simulateur implements  Simulable
 
     // Save initial positions of robots
     this.initialRobotPositions = new ArrayList<>();
+    this.initialRobotReservoir = new ArrayList<>();
+    this.initialRobotvitesse = new ArrayList<>();
+
     for (Robot robot : robots) {
         initialRobotPositions.add(robot.getPosition());  // Save initial position as Case
+        initialRobotReservoir.add(robot.getNiveauReservoirEau());
+        initialRobotvitesse.add(robot.getVitesse());
     }
 
     // Save initial positions of fires
     this.initialFirePositions = new ArrayList<>();
+    this.initialFireintensite = new ArrayList<>();
+
     for (Incendie incendie : incendies) {
         initialFirePositions.add(incendie.getPosition());  // Save initial position as Case
+        initialFireintensite.add(incendie.getIntensite());  // Save initial position as Case
+
     }
 
     // GUI setup
@@ -100,13 +115,17 @@ public void afficherSimulation(Carte carte,int largeurCase,int hauteurCase) {
     }
 
     for (Incendie incendie : incendies) {
-        int colonneIncendie=incendie.getPosition().getColonne();
-        int ligneIncendie=incendie.getPosition().getLigne();
-        int x = colonneIncendie * largeurCase + largeurCase / 2;
-        int y = ligneIncendie * hauteurCase + hauteurCase / 2;
-        
-        Oval fireOval = new Oval(x, y, Color.RED, Color.RED, largeurCase / 2, hauteurCase / 2);
-        gui.addGraphicalElement(fireOval);
+        if (incendie.getIntensite() > 0)
+        {
+            int colonneIncendie=incendie.getPosition().getColonne();
+            int ligneIncendie=incendie.getPosition().getLigne();
+            int x = colonneIncendie * largeurCase + largeurCase / 2;
+            int y = ligneIncendie * hauteurCase + hauteurCase / 2;
+            
+            Oval fireOval = new Oval(x, y, Color.RED, Color.RED, largeurCase / 2, hauteurCase / 2);
+            gui.addGraphicalElement(fireOval);
+        }
+
     }
 
     for (Robot robot : robots) {
@@ -150,11 +169,17 @@ public void afficherSimulation(Carte carte,int largeurCase,int hauteurCase) {
         // Reset each robot's position to its initial position
         for (int i = 0; i < robots.size(); i++) {
             robots.get(i).setPosition(initialRobotPositions.get(i));  // Reset position
+            robots.get(i).setVitesse(initialRobotvitesse.get(i));  // Reset position
+            robots.get(i).setReservoirEau(initialRobotReservoir.get(i));  // Reset position
+
+
         }
     
         // Reset each fire's position to its initial position
         for (int i = 0; i < incendies.size(); i++) {
             incendies.get(i).setPosition(initialFirePositions.get(i));  // Reset position
+            incendies.get(i).setIntensite(initialFireintensite.get(i));  // Reset position
+
         }
     
         int largeur = 800;

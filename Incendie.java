@@ -24,6 +24,7 @@ public class Incendie {
     public Case getPosition(){
         return position;
     }
+    
     public int getIntensite(){
         return intensite;
     }

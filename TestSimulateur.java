@@ -13,22 +13,21 @@ public class TestSimulateur {
 
             // Add movement events
             Robot robot1 = donnes.getRobots().get(0);
+            System.out.println(robot1.getNiveauReservoirEau());
          
  
-            Deplacement deplacerRobot1 = new Deplacement(donnes.getCarte(), robot1, Direction.NORD, 0);
-
+            Deplacement deplacerRobot1 = new Deplacement(donnes.getCarte(), robot1, Direction.SUD, 0);
+            Incendie incendie1=donnes.geIncendies().get(0);
             simulateur.ajouteEvenement(deplacerRobot1);
-            Incendie inc1 = donnes.geIncendies().get(0);
-            int deb=inc1.getIntensite();
-            System.err.println(deb);
-            Robot robot2 = donnes.getRobots().get(1);
-            robot2.getCapaciteMaxReservoir();
             
-            Intervention tfi=new Intervention(robot2, inc1, 1);
-            int after=inc1.getIntensite();
-            System.err.println(after);
+            Intervention tfi=new Intervention(robot1, incendie1, 1);
 
             simulateur.ajouteEvenement(tfi);
+            Deplacement deplacerRobot2 = new Deplacement(donnes.getCarte(), robot1, Direction.SUD, 2);
+            simulateur.ajouteEvenement(deplacerRobot2);
+
+
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
