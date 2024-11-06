@@ -21,3 +21,6 @@ Prochaines étapes :
 
 Conclusion
     L’implémentation de base est bien avancée, mais il reste quelques fonctionnalités à ajouter pour gérer les interactions spécifiques des robots avec les différents terrains. N'hésitez pas à consulter le code et à me faire part de vos retours ou questions.
+
+javac tests/TestSimulateur.java 
+java tests.TestSimulateur
