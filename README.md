@@ -1,3 +1,12 @@
+j ai cree un makefile
+pour appeler javac ..... il suffit d appeler make
+pour ecxecter le prog java ... il suffit d appeler make run.
+il supprime tous les *.class et .jar situés en bin il faut juste appeler make clean
+pour push dans le git il suffit d appeler make push
+créer le fichier JAR il suffit d appeler make jar
+
+
+
 Projet Carte et Gestion de Case
     Description du projet
         Ce projet implémente une structure de gestion de carte avec des cases ayant différentes natures de terrains. Le but est de modéliser une grille où chaque case représente un terrain spécifique, et les objets comme les robots peuvent interagir avec ces cases en fonction de leur nature.
