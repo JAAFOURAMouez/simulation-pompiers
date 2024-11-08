@@ -65,6 +65,7 @@ public class Simulateur implements  Simulable
     int hauteur = 600;
     int largeurCase = largeur / carte.getNbColonnes();
     int hauteurCase = hauteur / carte.getNbLignes();
+
     this.gui = new GUISimulator(largeur, hauteur, Color.WHITE);
     gui.setSimulable(this);
     afficherSimulation(carte, largeurCase, hauteurCase);
@@ -78,8 +79,8 @@ public void afficherSimulation(Carte carte, int largeurCase, int hauteurCase) {
     // Redessiner la carte
     for (int i = 0; i < carte.getNbLignes(); i++) {
         for (int j = 0; j < carte.getNbColonnes(); j++) {
-            int x = j * largeurCase + largeurCase / 2;
-            int y = i * hauteurCase + hauteurCase / 2;
+            int x = j * largeurCase ;
+            int y = i * hauteurCase ;
 
             Case myCase = carte.getCase(i, j);
             NatureTerrain nature = myCase.getNature();
@@ -111,17 +112,31 @@ public void afficherSimulation(Carte carte, int largeurCase, int hauteurCase) {
     String fireImagePath = "ressources/fire.png";
     for (Incendie incendie : incendies) {
         if (incendie.getIntensite() > 0) {
-            int x = incendie.getPosition().getColonne() * largeurCase + largeurCase / 2;
-            int y = incendie.getPosition().getLigne() * hauteurCase + hauteurCase / 2;
+            int x = incendie.getPosition().getColonne() * largeurCase ;
+            int y = incendie.getPosition().getLigne() * hauteurCase ;
             gui.addGraphicalElement(new ImageElement(x, y, fireImagePath, largeurCase , hauteurCase, null));
         }
     }
 
     // Ajouter les robots
-    String robotImagePath = "ressources/firetruck.png";
+    String robotImagePath;
     for (Robot robot : robots) {
-        int x = robot.getPosition().getColonne() * largeurCase + largeurCase / 2;
-        int y = robot.getPosition().getLigne() * hauteurCase + hauteurCase / 2;
+        switch (robot.getType()) {
+            case "Drone":
+            robotImagePath= "ressources/drone.png";
+            break;
+            case"RobotAPattes":
+            robotImagePath= "ressources/apattes.png";
+            break;
+            case"RobotAChentilles":
+            robotImagePath= "ressources/achantilles.png";
+            break;
+            default:
+            robotImagePath= "ressources/firetruck.png";
+            break;
+        }
+        int x = robot.getPosition().getColonne() * largeurCase ;
+        int y = robot.getPosition().getLigne() * hauteurCase ;
         gui.addGraphicalElement(new ImageElement(x, y, robotImagePath, largeurCase , hauteurCase , null));
     }
 }
@@ -135,7 +150,6 @@ public void afficherSimulation(Carte carte, int largeurCase, int hauteurCase) {
         int hauteur = 600;
         int largeurCase=largeur/carte.getNbColonnes();
         int hauteurCase=hauteur/carte.getNbLignes();
-
         afficherSimulation(carte,largeurCase, hauteurCase);
 
     }
@@ -162,7 +176,6 @@ public void afficherSimulation(Carte carte, int largeurCase, int hauteurCase) {
         int hauteur = 600;
         int largeurCase = largeur / carte.getNbColonnes();
         int hauteurCase = hauteur / carte.getNbLignes();
-    
         afficherSimulation(carte, largeurCase, hauteurCase);
     
         // Repaint the GUI to reflect the reset state
@@ -194,7 +207,5 @@ public void afficherSimulation(Carte carte, int largeurCase, int hauteurCase) {
     {
         return (date > dateSimulation);
     }
-
-
 
 }

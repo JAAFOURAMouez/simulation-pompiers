@@ -23,4 +23,7 @@ public class RobotAChenilles extends Robot {
     public int getCapaciteMaxReservoir(){
         return 2000;
     }
+    public String getType(){
+        return "RobotAChentilles";
+    }
 }

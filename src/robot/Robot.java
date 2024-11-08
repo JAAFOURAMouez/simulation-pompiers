@@ -11,7 +11,6 @@ public abstract class Robot{
     private int reservoirEau;
     private Simulateur simulateur;
     protected double vitesse;
-    
     public Robot(Case position,int reservoirEau,int vitesse){
         this.position=position;
         this.reservoirEau=reservoirEau;
@@ -118,5 +117,6 @@ public abstract class Robot{
     public abstract int getCapaciteMaxReservoir();
     public abstract boolean peutSeDeplacerSur(NatureTerrain terrain);
     public abstract void setVitesseSur(NatureTerrain terrain);
+    public abstract String getType();
 
 }

@@ -20,5 +20,7 @@ public class RobotAPattes extends Robot {
     public int getCapaciteMaxReservoir(){
         return Integer.MAX_VALUE;
     }
-
+    public String getType(){
+        return "RobotAPattes";
+    }
 }
