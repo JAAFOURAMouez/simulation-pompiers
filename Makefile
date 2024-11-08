@@ -14,6 +14,7 @@ compile:
 
 # Cible pour exécuter TestSimulateur
 run:
+	@cp -r src/gui bin/gui
 	@echo "Exécution de TestSimulateur..."
 	@java -cp $(OUT_DIR) tests.TestSimulateur
 

@@ -7,7 +7,7 @@ import robot.*;
 import carte.*;
 import java.awt.Color;
 import gui.Simulable;
-
+import gui.ImageElement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,75 +73,59 @@ public class Simulateur implements  Simulable
 
   
 
-public void afficherSimulation(Carte carte,int largeurCase,int hauteurCase) {      
-
-
-   
+public void afficherSimulation(Carte carte, int largeurCase, int hauteurCase) {
+    gui.reset();
+    // Redessiner la carte
     for (int i = 0; i < carte.getNbLignes(); i++) {
         for (int j = 0; j < carte.getNbColonnes(); j++) {
             int x = j * largeurCase + largeurCase / 2;
             int y = i * hauteurCase + hauteurCase / 2;
 
-            Case myCase=carte.getCase(i,j);
-            NatureTerrain nature=myCase.getNature();
-            Color cellColor;
+            Case myCase = carte.getCase(i, j);
+            NatureTerrain nature = myCase.getNature();
+            String imagePath;
 
-            if (nature==NatureTerrain.EAU)
-            {
-                cellColor = Color.CYAN;  
-                
+            switch (nature) {
+                case EAU:
+                    imagePath = "ressources/sea.png";  
+                    break;
+                case FORET:
+                    imagePath = "ressources/forest.png";  
+                    break;
+                case ROCHE:
+                    imagePath = "ressources/rocks.png";    
+                    break;
+                case HABITAT:
+                    imagePath = "ressources/city.png"; 
+                    break;
+                default:
+                    imagePath = "ressources/grass.png"; 
+                    break;
             }
 
-            else if (nature==NatureTerrain.FORET)
-            {
-                    cellColor = Color.GREEN; 
-            }
-            else if(nature==NatureTerrain.ROCHE)
-            {   
-                    cellColor = Color.GRAY;   
-            }
-            else if (nature==NatureTerrain.HABITAT)
-
-            {
-                cellColor = Color.DARK_GRAY;
-            }
-            else 
-            {
-                cellColor = Color.YELLOW;  
-            }
-
-        
-
-            Rectangle cellRect = new Rectangle(x, y, cellColor, Color.black, largeurCase, hauteurCase);
-            gui.addGraphicalElement(cellRect);
+            gui.addGraphicalElement(new ImageElement(x, y, imagePath, largeurCase, hauteurCase, null));
         }
     }
 
+    // Ajouter les incendies
+    String fireImagePath = "ressources/fire.png";
     for (Incendie incendie : incendies) {
-        if (incendie.getIntensite() > 0)
-        {
-            int colonneIncendie=incendie.getPosition().getColonne();
-            int ligneIncendie=incendie.getPosition().getLigne();
-            int x = colonneIncendie * largeurCase + largeurCase / 2;
-            int y = ligneIncendie * hauteurCase + hauteurCase / 2;
-            
-            Oval fireOval = new Oval(x, y, Color.RED, Color.RED, largeurCase / 2, hauteurCase / 2);
-            gui.addGraphicalElement(fireOval);
+        if (incendie.getIntensite() > 0) {
+            int x = incendie.getPosition().getColonne() * largeurCase + largeurCase / 2;
+            int y = incendie.getPosition().getLigne() * hauteurCase + hauteurCase / 2;
+            gui.addGraphicalElement(new ImageElement(x, y, fireImagePath, largeurCase , hauteurCase, null));
         }
-
     }
 
+    // Ajouter les robots
+    String robotImagePath = "ressources/firetruck.png";
     for (Robot robot : robots) {
-        int colonne=robot.getPosition().getColonne();
-        int ligne=robot.getPosition().getLigne();
-
-        int x = colonne * largeurCase + largeurCase / 2;
-        int y = ligne * hauteurCase + hauteurCase / 2;
-        
-        Oval robotOval = new Oval(x, y, Color.BLUE, Color.white, largeurCase / 2, hauteurCase / 2);
-        gui.addGraphicalElement(robotOval);
+        int x = robot.getPosition().getColonne() * largeurCase + largeurCase / 2;
+        int y = robot.getPosition().getLigne() * hauteurCase + hauteurCase / 2;
+        gui.addGraphicalElement(new ImageElement(x, y, robotImagePath, largeurCase , hauteurCase , null));
     }
 }
+
     @Override
     public void next()
     {
@@ -166,15 +150,12 @@ public void afficherSimulation(Carte carte,int largeurCase,int hauteurCase) {
             robots.get(i).setPosition(initialRobotPositions.get(i));  // Reset position
             robots.get(i).setVitesse(initialRobotvitesse.get(i));  // Reset position
             robots.get(i).setReservoirEau(initialRobotReservoir.get(i));  // Reset position
-
-
         }
     
         // Reset each fire's position to its initial position
         for (int i = 0; i < incendies.size(); i++) {
             incendies.get(i).setPosition(initialFirePositions.get(i));  // Reset position
             incendies.get(i).setIntensite(initialFireintensite.get(i));  // Reset position
-
         }
     
         int largeur = 800;
@@ -192,7 +173,6 @@ public void afficherSimulation(Carte carte,int largeurCase,int hauteurCase) {
     public void ajouteEvenement(Evenement e)
     {
         evenements.add(e);
-
     }
 
     private  void incrementeDate() {
