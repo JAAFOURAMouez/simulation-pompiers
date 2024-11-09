@@ -1,36 +1,30 @@
 package tests;
 import simulateur.*;
 import robot.*;
+import carte.*;
 import simulateur.LectureDonnee;
 import simulateur.Simulateur;
 
 import java.io.FileNotFoundException;
 
-import carte.Incendie;
-import robot.Deplacement;
 public class TestSimulateur {
     public static void main(String[] args) {
         try {
             DonneeSimulation donnes = LectureDonnee.lire("maps/hell.map");
             Simulateur simulateur = new Simulateur(donnes);
 
-            // Add movement events
-            Robot robot1 = donnes.getRobots().get(0);
-            System.out.println(robot1.getNiveauReservoirEau());
-         
- 
-            Deplacement deplacerRobot1 = new Deplacement(donnes.getCarte(), robot1, Direction.SUD, 0);
-            Incendie incendie1=donnes.geIncendies().get(0);
-            simulateur.ajouteEvenement(deplacerRobot1);
-            
-            Intervention tfi=new Intervention(robot1, incendie1, 1);
-
-            simulateur.ajouteEvenement(tfi);
-            Deplacement deplacerRobot2 = new Deplacement(donnes.getCarte(), robot1, Direction.SUD, 2);
-            simulateur.ajouteEvenement(deplacerRobot2);
+            // Choisissez un robot et définissez les cases de départ et de destination
+            Robot robot1 = donnes.getRobots().get(1);
+            robot1.setCarte(donnes.getCarte());
+            robot1.setSimulateur(simulateur);
+            //Case depart = robot1.getPosition(); // Exemple de case de départ
+            Case destination = donnes.getCarte().getCase(8, 8); // Exemple de case de destination
+            // Afficher le niveau du réservoir d'eau du robot 
+            System.out.println(robot1.deplacerVersCase(destination));
 
         } catch (FileNotFoundException e) {
+            System.err.println("Fichier de carte non trouvé !");
             e.printStackTrace();
-        }
+        } 
     }
 }

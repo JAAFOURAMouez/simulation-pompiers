@@ -18,9 +18,6 @@ public class Deplacement extends Evenement
         this.carte=carte;
     }
 
-
-
-
     @Override
     
     public void execute()

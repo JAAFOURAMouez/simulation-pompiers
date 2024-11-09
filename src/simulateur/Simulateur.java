@@ -25,9 +25,6 @@ public class Simulateur implements  Simulable
     private List<Case> initialFirePositions;
     private List<Integer> initialFireintensite;
 
-
-
-     
     private long dateSimulation;
     private PriorityQueue<Evenement> evenements;
     private GUISimulator gui;  
@@ -140,7 +137,6 @@ public void afficherSimulation(Carte carte, int largeurCase, int hauteurCase) {
         gui.addGraphicalElement(new ImageElement(x, y, robotImagePath, largeurCase , hauteurCase , null));
     }
 }
-
     @Override
     public void next()
     {
@@ -153,7 +149,6 @@ public void afficherSimulation(Carte carte, int largeurCase, int hauteurCase) {
         afficherSimulation(carte,largeurCase, hauteurCase);
 
     }
-
     @Override
     public void restart() {
         this.dateSimulation = 0;
@@ -181,7 +176,6 @@ public void afficherSimulation(Carte carte, int largeurCase, int hauteurCase) {
         // Repaint the GUI to reflect the reset state
         gui.repaint();
     }
-    
     
     public void ajouteEvenement(Evenement e)
     {
