@@ -21,7 +21,14 @@ public class Case {
     public int getLigne() {
         return Ligne;
     }
+
     public void setNature(NatureTerrain terrain){
         this.Nature=terrain;
+    }
+    public void setColonne(int colonne) {
+        this.Colonne = colonne;
+    }
+    public void setLigne(int ligne) {
+        this.Ligne = ligne;
     }
 }

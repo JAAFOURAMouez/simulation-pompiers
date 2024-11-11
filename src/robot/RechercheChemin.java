@@ -42,10 +42,14 @@ public class RechercheChemin {
                     }
                 }
             }
+
         }
+        System.out.println("non trou");
         return new ResultatChemin(null, Double.MAX_VALUE);// Aucun chemin trouve
      } 
-     else {return new ResultatChemin(null, Double.MAX_VALUE);}
+     else {        System.out.println("non trou");
+
+        return new ResultatChemin(null, Double.MAX_VALUE);}
     }
 
     private List<SimpleEntry<Case, Direction>> reconstruireChemin(Map<Case, SimpleEntry<Case, Direction>> predecesseurs, Case depart, Case destination) {
