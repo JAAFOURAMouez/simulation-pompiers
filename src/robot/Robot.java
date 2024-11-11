@@ -59,7 +59,7 @@ public abstract class Robot{
             int niv=this.getNiveauReservoirEau();
             if (niv+vol > this.getCapaciteMaxReservoir())
             {
-                this.getCapaciteMaxReservoir();
+                this.setReservoirEau(this.getCapaciteMaxReservoir());
             }
             else
             {
