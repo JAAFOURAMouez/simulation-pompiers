@@ -147,6 +147,7 @@ public void afficherSimulation(Carte carte, int largeurCase, int hauteurCase) {
         int largeurCase=largeur/carte.getNbColonnes();
         int hauteurCase=hauteur/carte.getNbLignes();
         afficherSimulation(carte,largeurCase, hauteurCase);
+    
 
     }
     @Override

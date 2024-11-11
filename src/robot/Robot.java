@@ -54,8 +54,8 @@ public abstract class Robot{
 
 
     public void remplirEau(int vol) {
-        if (position.getNature()==NatureTerrain.EAU )
-        {
+       
+        
             int niv=this.getNiveauReservoirEau();
             if (niv+vol > this.getCapaciteMaxReservoir())
             {
@@ -66,7 +66,7 @@ public abstract class Robot{
                 this.setReservoirEau(niv+vol);
 
             }
-        }
+        
     }
 
     public void setReservoirEau(int nivreservoir)
@@ -102,7 +102,7 @@ public abstract class Robot{
         RechercheChemin rechercheChemin = new RechercheChemin(carte);
         ResultatChemin resultat = rechercheChemin.calculerCheminOptimal(depart, destination, this);
         // System.out.println(position.getLigne() + " " + position.getColonne() + "//" + destination.getLigne() + " "+ destination.getColonne());
-        if (resultat == null) {
+        if (resultat.getCheminOptimal() == null) {
             System.out.println("Aucun chemin trouvé pour atteindre la destination.");
             return -1;
         }
