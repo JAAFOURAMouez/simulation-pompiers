@@ -20,6 +20,10 @@ public class RobotAPattes extends Robot {
     public int getCapaciteMaxReservoir(){
         return Integer.MAX_VALUE;
     }
+    public double getTempsTotal(int vol)
+    {
+        return 0;
+    }
     public String getType(){
         return "RobotAPattes";
     }

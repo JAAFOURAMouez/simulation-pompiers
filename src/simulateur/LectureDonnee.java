@@ -1,33 +1,33 @@
 package simulateur;
+import carte.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import carte.*;
 import robot.*;
 
 public class LectureDonnee {
+    private static  List<Case> casesEau=new ArrayList<>();
     public static DonneeSimulation lire(String fichier) throws FileNotFoundException{
         try{
             Scanner scanner=new Scanner(new File(fichier));
             Carte carte=lireCarte(scanner);
             List<Incendie> incendies=lireIncendies(scanner);
             List<Robot> robots=lireRobots(scanner,carte);
-            return new DonneeSimulation(carte, incendies, robots);
+            return new DonneeSimulation(carte, incendies, robots,casesEau);
         } catch(FileNotFoundException e) {
             System.err.println("Fichier non trouvé:"+fichier+"!!!!");
             return null;
 
         }
     }
+    
     private static Carte lireCarte(Scanner scanner){
         ignorerCommentaires(scanner);
 
         int nbLignes=scanner.nextInt();
         int nbColonnes=scanner.nextInt();
-
         int tailleCases=scanner.nextInt();
         Carte carte=new Carte(nbLignes, nbColonnes);
         carte.setTailleCases(tailleCases);
@@ -36,11 +36,19 @@ public class LectureDonnee {
                 ignorerCommentaires(scanner);
                 String nature=scanner.next();
                 NatureTerrain natureTerrain=NatureTerrain.valueOf(nature);
+
                 Case myCase=new Case(i,j,natureTerrain);
+                if (natureTerrain==NatureTerrain.EAU)
+                {
+                    casesEau.add(myCase);
+                }
+
+
                 carte.add_case(myCase);
                 carte.getCase(i, j).setNature(natureTerrain);
             }
         }
+        
         return carte;
     }
     private static List<Incendie> lireIncendies(Scanner scanner){

@@ -20,6 +20,12 @@ public class Drone extends Robot {
     public int getCapaciteMaxReservoir(){
         return 10000;
     }
+
+    public double getTempsTotal(int vol)
+    {
+        return vol * 0.18;
+    }
+    
     public String getType(){
         return "Drone";
     }

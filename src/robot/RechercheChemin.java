@@ -1,7 +1,7 @@
 package robot;
+import carte.*;
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
-import carte.*;
 
 public class RechercheChemin {
     private Carte carte;
@@ -11,6 +11,7 @@ public class RechercheChemin {
     }
 
     public ResultatChemin calculerCheminOptimal(Case depart, Case destination, Robot robot) {
+        if(robot.peutSeDeplacerSur(destination.getNature())){ 
         Map<Case, Double> distances = new HashMap<>();
         Map<Case, SimpleEntry<Case, Direction>> predecesseurs = new HashMap<>();
         PriorityQueue<Case> filePriorite = new PriorityQueue<>(Comparator.comparing(distances::get));
@@ -30,7 +31,8 @@ public class RechercheChemin {
                 if (carte.voisinExiste(courant, direction) && robot.getVitesse() != 0) {
                     Case voisin = carte.getVoisin(courant, direction);
 
-                    double tempsDeplacement = carte.getTailleCases() / robot.getVitesse();
+                    double tempsDeplacement = carte.getTailleCases() / (1000 *robot.getVitesse());//par h
+                    tempsDeplacement*=3600;//par s
                     double nouvelleDistance = distances.get(courant) + tempsDeplacement;
 
                     if (nouvelleDistance < distances.getOrDefault(voisin, Double.POSITIVE_INFINITY)) {
@@ -41,7 +43,9 @@ public class RechercheChemin {
                 }
             }
         }
-        return null; // Aucun chemin trouve
+        return new ResultatChemin(null, Double.MAX_VALUE);// Aucun chemin trouve
+     } 
+     else {return new ResultatChemin(null, Double.MAX_VALUE);}
     }
 
     private List<SimpleEntry<Case, Direction>> reconstruireChemin(Map<Case, SimpleEntry<Case, Direction>> predecesseurs, Case depart, Case destination) {

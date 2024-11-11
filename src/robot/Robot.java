@@ -1,8 +1,7 @@
 package robot;
+import carte.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
-
-import carte.*;
 import simulateur.Simulateur;
 
 public abstract class Robot{
@@ -54,10 +53,19 @@ public abstract class Robot{
 
 
 
-    public void remplirEau() {
-        if (position.getNature()==NatureTerrain.EAU && this.getNiveauReservoirEau()==0)
+    public void remplirEau(int vol) {
+        if (position.getNature()==NatureTerrain.EAU )
         {
-            this.getCapaciteMaxReservoir();
+            int niv=this.getNiveauReservoirEau();
+            if (niv+vol > this.getCapaciteMaxReservoir())
+            {
+                this.getCapaciteMaxReservoir();
+            }
+            else
+            {
+                this.setReservoirEau(niv+vol);
+
+            }
         }
     }
 
@@ -90,33 +98,37 @@ public abstract class Robot{
 
     }
     //deplacer le robot vers une case et retourner le temps ecoule
-    public double deplacerVersCase(Case destination) {
+    public long  deplacerVersCase(Case depart, Case destination, long t) {
         RechercheChemin rechercheChemin = new RechercheChemin(carte);
-        ResultatChemin resultat = rechercheChemin.calculerCheminOptimal(position, destination, this);
-
+        ResultatChemin resultat = rechercheChemin.calculerCheminOptimal(depart, destination, this);
+        // System.out.println(position.getLigne() + " " + position.getColonne() + "//" + destination.getLigne() + " "+ destination.getColonne());
         if (resultat == null) {
             System.out.println("Aucun chemin trouvé pour atteindre la destination.");
             return -1;
         }
 
         List<SimpleEntry<Case, Direction>> cheminOptimal = resultat.getCheminOptimal();
-        long temps = simulateur.getDateSimulation();
+        long temps = t;
 
         // Programmer les événements de déplacement pour chaque étape du chemin
         for (SimpleEntry<Case, Direction> etape : cheminOptimal) {
             Direction direction = etape.getValue();
+            // System.out.println(direction + "\n");
             if (direction != null) { // Ignorer la première case (départ)
                 Deplacement deplacement = new Deplacement(carte, this, direction, temps);
                 simulateur.ajouteEvenement(deplacement);
                 temps += 1; // Incrémenter le temps pour chaque déplacement
             }
         }
-        return resultat.getTempsTotal();
+        // System.out.println("------------------------------------------------");
+        return temps - t;
     }
 
     public abstract int getCapaciteMaxReservoir();
     public abstract boolean peutSeDeplacerSur(NatureTerrain terrain);
     public abstract void setVitesseSur(NatureTerrain terrain);
     public abstract String getType();
+    public abstract double getTempsTotal(int vol);
+
 
 }

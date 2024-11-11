@@ -1,7 +1,6 @@
 package simulateur;
-import java.util.List;
-
 import carte.*;
+import java.util.List;
 import robot.*;
 
 
@@ -9,11 +8,14 @@ public class DonneeSimulation {
     private Carte carte;
     private List<Robot> robots;
     private List<Incendie> incendies;
+    private List<Case> casesEau;
+
     public DonneeSimulation(Carte carte,List<Incendie> incendies,
-                            List<Robot>robots){
+                            List<Robot>robots,List<Case> casesEau){
         this.carte=carte;
         this.incendies=incendies;
         this.robots=robots;
+        this.casesEau=casesEau;
     }
     public void ajoutIncendie(Incendie incendie){
         this.incendies.add(incendie);
@@ -26,6 +28,9 @@ public class DonneeSimulation {
     }
     public List<Robot> getRobots(){
         return robots;
+    }
+    public List<Case> getCasesEau(){
+        return casesEau;
     }
     public Carte getCarte(){
         return carte;

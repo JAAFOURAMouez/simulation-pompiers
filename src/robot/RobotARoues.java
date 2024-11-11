@@ -22,6 +22,11 @@ public class RobotARoues extends Robot{
     public int getCapaciteMaxReservoir(){
         return 5000;
     }
+    public double getTempsTotal(int vol)
+    {
+        return vol * 0.12;
+    }
+
     public String getType(){
         return "RobotARoues";
     }

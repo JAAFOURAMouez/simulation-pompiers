@@ -3,13 +3,14 @@ package robot;
 public class Remplissage extends Evenement
 {
 
-    public Robot robot;
+    private Robot robot;
+    private int vol;
 
-
-    Remplissage(Robot robot,long date)
+    Remplissage(Robot robot,long date, int vol)
     {
         super(date);
         this.robot=robot;
+        this.vol = vol;
     }
 
 
@@ -18,7 +19,7 @@ public class Remplissage extends Evenement
     
     public void execute()
     {
-        robot.remplirEau();
+        robot.remplirEau(vol);
 
     }
 
