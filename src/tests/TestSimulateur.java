@@ -6,7 +6,7 @@ import simulateur.*;
 public class TestSimulateur {
     public static void main(String[] args) {
         try {
-            DonneeSimulation donnes = LectureDonnee.lire("maps/spiral.map");
+            DonneeSimulation donnes = LectureDonnee.lire("maps/hell.map");
             Simulateur simulateur = new Simulateur(donnes);
            
             //Robot robot1 = donnes.getRobots().get(1);

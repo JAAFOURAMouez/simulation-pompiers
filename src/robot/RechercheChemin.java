@@ -44,11 +44,9 @@ public class RechercheChemin {
             }
 
         }
-        System.out.println("non trou");
         return new ResultatChemin(null, Double.MAX_VALUE);// Aucun chemin trouve
      } 
      else {        
-        System.out.println("non");
         return new ResultatChemin(null, Double.MAX_VALUE);}
     }
 

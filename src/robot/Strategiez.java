@@ -16,113 +16,102 @@ public class Strategiez {
     private List<Robot> robots;
     private List<Incendie> incendies;
     private List<Case> casesEau;
-    public void chefPompier(DonneeSimulation donnes,Simulateur simulateur)
-    {
-        robots=donnes.getRobots();
-        incendies=donnes.geIncendies();
-        casesEau=donnes.getCasesEau();
-        boolean remplir=false;
-        long t = simulateur.getDateSimulation()-1;
+
+    public void chefPompier(DonneeSimulation donnes, Simulateur simulateur) {
+        robots = donnes.getRobots();
+        incendies = donnes.geIncendies();
+        casesEau = donnes.getCasesEau();
+        boolean remplir = false;
+        long t = simulateur.getDateSimulation() - 1;
         long tempsGlobal = 0;
-        // initialiser une structure qui prend liste des robots et voir s ils sont occupes ou pas
+
         Map<Robot, EtatDetails> etat = new HashMap<>();
         for (Robot robot : robots) {
-            etat.put(robot , new EtatDetails(0.0, robot.getPosition(), robot.getNiveauReservoirEau(), 0));
+            etat.put(robot, new EtatDetails(0.0, robot.getPosition(), robot.getNiveauReservoirEau(), 0));
         }
-        RechercheChemin r = new RechercheChemin(donnes.getCarte());
-        for (int i = 0; i < incendies.size(); i++) {
-            Robot eteindre = robots.get(0);
-            //destination vers le feu
-            Case destination=donnes.getCarte().getCase(incendies.get(i).getPosition().getLigne(),incendies.get(i).getPosition().getColonne());
-            double temps ;
-            double min=Double.MAX_VALUE;
-            int nbAllerRetour ;
-            int nbfinal = 0 ;
-            Case plusProcheeau  =new Case(0,0,NatureTerrain.EAU);
-            Case plusProcheeaufeu  =new Case(0,0,NatureTerrain.EAU);
 
+        RechercheChemin r = new RechercheChemin(donnes.getCarte());
+
+        for (int i = 0; i < incendies.size(); i++) {
+            Robot eteindre = null;
+            Case destination = donnes.getCarte().getCase(incendies.get(i).getPosition().getLigne(), incendies.get(i).getPosition().getColonne());
+            double minTemps = Double.MAX_VALUE;
+            int nbFinal = 0;
 
             for (Robot robot : robots) {
                 robot.setCarte(donnes.getCarte());
                 robot.setSimulateur(simulateur);
-                EtatDetails details = etat.get(robot);   
+                EtatDetails details = etat.get(robot);
 
-                Case depart= details.getCaseAssociee();
+                Case depart = details.getCaseAssociee();
+                double temps;
+                int volIntervention = Math.min(details.getreservoir(), incendies.get(i).getIntensite());
 
-                if (details.getreservoir() >= incendies.get(i).getIntensite())
-                {
-                    //On doit chercher le plus proche chemin vers l'eau pour remplir le reservoir et recalculer le temps necessaie
-                    ResultatChemin resultat=r.calculerCheminOptimal(depart,destination,robot);
-                    int volIntervention=Math.min(details.getreservoir() , incendies.get(i).getIntensite());
-                    temps=resultat.getTempsTotal() + details.gettemps()+incendies.get(i).tempsIntervention(robot, volIntervention);
-                    System.out.println(temps);
-                    if (temps < min){
-                        min =temps;
-                        eteindre=robot;
-                        remplir=false;
+                if (details.getreservoir() >= incendies.get(i).getIntensite()) {
+                    ResultatChemin resultat = r.calculerCheminOptimal(depart, destination, robot);
+                    temps = resultat.getTempsTotal() + details.gettemps() + incendies.get(i).tempsIntervention(robot, volIntervention);
+                    if (temps < minTemps) {
+                        minTemps = temps;
+                        eteindre = robot;
+                        remplir = false;
                     }
-                }else{
-                    int volIntervention=Math.min(details.getreservoir() , incendies.get(i).getIntensite());
-                    plusProcheeau=plusProche(donnes, depart, robot, casesEau).getKey();
-                    Double minEau=plusProche(donnes, depart, robot, casesEau).getValue();
-                    //plus cours chemin du robot a feu
-                    ResultatChemin resultatFeu=r.calculerCheminOptimal(plusProcheeau,destination,robot);
-
-                    double tempsRemplissage=robot.getTempsTotal(robot.getCapaciteMaxReservoir()-details.getreservoir());
-                    //ALLER DE LA POSITION INIT DE L EAU SUR LE TRAJET VERS LE FEU
-                    double tempsFeu=resultatFeu.getTempsTotal();        
-                    nbAllerRetour = (int) Math.ceil((double) incendies.get(i).getIntensite() / robot.getCapaciteMaxReservoir());
-                    double tempsTotal=minEau+tempsRemplissage+tempsFeu+details.gettemps()+incendies.get(i).tempsIntervention(robot, volIntervention);
-                    if(nbAllerRetour>1){
-                        plusProcheeaufeu=plusProche(donnes, incendies.get(i).getPosition(), robot, casesEau).getKey();
-                        System.out.println(plusProcheeaufeu.getColonne()+" "+plusProcheeaufeu.getLigne());
-                        //ALLER DE LA POSITION DE L'EAU VERS LE FEU
-                        Double minEauFeu=plusProche(donnes, incendies.get(i).getPosition(), robot, casesEau).getValue();
-                        tempsTotal+=((2*minEauFeu+tempsRemplissage)*(nbAllerRetour-1));
+                } else {
+                    SimpleEntry<Case, Double> closestWaterEntry = plusProche(donnes, depart, robot, casesEau);
+                    Case closestWater = closestWaterEntry.getKey();
+                    double minEau = closestWaterEntry.getValue();
+                    
+                    ResultatChemin resultatFeu = r.calculerCheminOptimal(closestWater, destination, robot);
+                    double tempsRemplissage = robot.getTempsTotal(robot.getCapaciteMaxReservoir() - details.getreservoir());
+                    double tempsFeu = resultatFeu.getTempsTotal();
+                    int nbAllerRetour = (int) Math.ceil((double) incendies.get(i).getIntensite() / robot.getCapaciteMaxReservoir());
+                    double tempsTotal = minEau + tempsRemplissage + tempsFeu + details.gettemps() + incendies.get(i).tempsIntervention(robot, volIntervention);
+                    
+                    if (nbAllerRetour > 1) {
+                        SimpleEntry<Case, Double> closestWaterToFire = plusProche(donnes, incendies.get(i).getPosition(), robot, casesEau);
+                        double minEauFeu = closestWaterToFire.getValue();
+                        tempsTotal += ((2 * minEauFeu + tempsRemplissage) * (nbAllerRetour - 1));
                     }
-                    if (tempsTotal < min){
-                        min =tempsTotal;
-                        eteindre=robot;
-                        remplir=true;
-                        nbfinal = nbAllerRetour;
-                    }               
+
+                    if (tempsTotal < minTemps) {
+                        minTemps = tempsTotal;
+                        eteindre = robot;
+                        remplir = true;
+                        nbFinal = nbAllerRetour;
+                    }
                 }
             }
-            // System.out.println(plusProcheeau.getLigne()+ " " + plusProcheeau.getColonne());
-            t = etat.get(eteindre).gettempsCour();
-            if (remplir){
 
-                    // System.out.println(eteindre.getType());
-                    t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), plusProcheeau, t+1);
-                    Remplissage re = new Remplissage(eteindre,t, incendies.get(i).getIntensite() - etat.get(eteindre).getreservoir());
-                    etat.put(eteindre, new EtatDetails(min, plusProcheeau, Math.min(incendies.get(i).getIntensite(),eteindre.getCapaciteMaxReservoir()),t));
-                    simulateur.ajouteEvenement(re);
-                    t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), destination, t+1);
-                    Intervention in = new Intervention(eteindre, incendies.get(i),t);
-                    etat.put(eteindre, new EtatDetails(min, destination, etat.get(eteindre).getreservoir() - Math.min(incendies.get(i).getIntensite(),eteindre.getCapaciteMaxReservoir()) ,t ));
-                    simulateur.ajouteEvenement(in);
-                    while (nbfinal>1) {
-                        t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), plusProcheeaufeu, t+1);
-                        re = new Remplissage(eteindre,t, incendies.get(i).getIntensite() - etat.get(eteindre).getreservoir());
-                        etat.put(eteindre, new EtatDetails(min, plusProcheeaufeu, Math.min(incendies.get(i).getIntensite(),eteindre.getCapaciteMaxReservoir()),t));
-                        simulateur.ajouteEvenement(re);
-                        t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), destination, t+1);
-                        in = new Intervention(eteindre, incendies.get(i),t);
-                        etat.put(eteindre, new EtatDetails(min, destination, etat.get(eteindre).getreservoir() - Math.min(incendies.get(i).getIntensite(),eteindre.getCapaciteMaxReservoir()) ,t ));
-                        simulateur.ajouteEvenement(in);
-                        nbfinal--;
-                    }
-            }else{   
-                t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), destination, t+1);
+            t = etat.get(eteindre).gettempsCour();
+            if (remplir) {
+                t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), plusProche(donnes, etat.get(eteindre).getCaseAssociee(), eteindre, casesEau).getKey(), t + 1);
+                Remplissage re = new Remplissage(eteindre, t, incendies.get(i).getIntensite() - etat.get(eteindre).getreservoir());
+                etat.put(eteindre, new EtatDetails(minTemps, plusProche(donnes, etat.get(eteindre).getCaseAssociee(), eteindre, casesEau).getKey(), Math.min(incendies.get(i).getIntensite(), eteindre.getCapaciteMaxReservoir()), t));
+                simulateur.ajouteEvenement(re);
+                t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), destination, t + 1);
                 Intervention in = new Intervention(eteindre, incendies.get(i), t);
-                etat.put(eteindre, new EtatDetails(min, destination, etat.get(eteindre).getreservoir() - incendies.get(i).getIntensite() ,t));
-                // System.out.println(destination.getLigne()+ " " + destination.getColonne());
+                etat.put(eteindre, new EtatDetails(minTemps, destination, etat.get(eteindre).getreservoir() - Math.min(incendies.get(i).getIntensite(), eteindre.getCapaciteMaxReservoir()), t));
+                simulateur.ajouteEvenement(in);
+
+                while (nbFinal > 1) {
+                    t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), plusProche(donnes, incendies.get(i).getPosition(), eteindre, casesEau).getKey(), t + 1);
+                    re = new Remplissage(eteindre, t, incendies.get(i).getIntensite() - etat.get(eteindre).getreservoir());
+                    etat.put(eteindre, new EtatDetails(minTemps, plusProche(donnes, incendies.get(i).getPosition(), eteindre, casesEau).getKey(), Math.min(incendies.get(i).getIntensite(), eteindre.getCapaciteMaxReservoir()), t));
+                    simulateur.ajouteEvenement(re);
+                    t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), destination, t + 1);
+                    in = new Intervention(eteindre, incendies.get(i), t);
+                    etat.put(eteindre, new EtatDetails(minTemps, destination, etat.get(eteindre).getreservoir() - Math.min(incendies.get(i).getIntensite(), eteindre.getCapaciteMaxReservoir()), t));
+                    simulateur.ajouteEvenement(in);
+                    nbFinal--;
+                }
+            } else {
+                t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), destination, t + 1);
+                Intervention in = new Intervention(eteindre, incendies.get(i), t);
+                etat.put(eteindre, new EtatDetails(minTemps, destination, etat.get(eteindre).getreservoir() - incendies.get(i).getIntensite(), t));
                 simulateur.ajouteEvenement(in);
             }
             tempsGlobal += t;
-            }
+        }
     }
-
 
     SimpleEntry<Case, Double> plusProche(DonneeSimulation donnes,Case depart, Robot robot,List<Case> casesEau){
         double minEau=Double.MAX_VALUE;
@@ -153,7 +142,6 @@ public class Strategiez {
                         if(minVoisin> resultatO.getTempsTotal()){
                             minVoisin=resultatO.getTempsTotal();
                             destinVoisine=voisinOuest;
-
                         }      
                     }
                 }
@@ -196,11 +184,4 @@ public class Strategiez {
         }
         return new SimpleEntry<>(plusProcheeau,minEau);
     }
-}
-
-
-
-
-
-
-
+} 
