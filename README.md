@@ -1,9 +1,14 @@
-j ai cree un makefile
-pour appeler javac ..... il suffit d appeler make
-pour ecxecter le prog java ... il suffit d appeler make run.
-il supprime tous les *.class et .jar situés en bin il faut juste appeler make clean
-pour push dans le git il suffit d appeler make push
-créer le fichier JAR il suffit d appeler make jar
+    LIEN POUR MODIFIER LE MANUEL: https://www.overleaf.com/2773934236sczvcbhtmhmf#0ed08a
+
+
+
+
+    j ai cree un makefile
+    pour appeler javac ..... il suffit d appeler make
+    pour ecxecter le prog java ... il suffit d appeler make run.
+    il supprime tous les *.class et .jar situés en bin il faut juste appeler make clean
+    pour push dans le git il suffit d appeler make push
+    créer le fichier JAR il suffit d appeler make jar
 
 
 
