@@ -46,10 +46,6 @@ public class Strategie {
                 incendiesQuadrant4.add(incendie);  
             }
         }
-
-        
-        
-
         RechercheChemin r = new RechercheChemin(carte);
         for (int i = 0; i < incendiesQuadrant1.size(); i++) {
             Robot eteindre = robots.get(0);

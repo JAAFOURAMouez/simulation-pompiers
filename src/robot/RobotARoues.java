@@ -11,9 +11,9 @@ public class RobotARoues extends Robot{
     }
     public void setVitesseSur(NatureTerrain terrain){
         if (terrain==NatureTerrain.TERRAIN_LIBRE) 
-            vitesse= 80.0;
+            vitesse= vitesseBase;
         else if (terrain==NatureTerrain.HABITAT) 
-            vitesse/=2;            
+            vitesse=vitesseBase/2;            
         else vitesse= 0;
     }
     public void setVitesse(double  vitesse){

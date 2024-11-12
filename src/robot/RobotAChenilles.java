@@ -7,14 +7,15 @@ public class RobotAChenilles extends Robot {
         super(position,2000,60);
     }
     public boolean peutSeDeplacerSur(NatureTerrain terrain){
-        return true;
+        return !(terrain==NatureTerrain.ROCHE||terrain==NatureTerrain.EAU);
     }
     public void setVitesseSur(NatureTerrain terrain){
         if (terrain==NatureTerrain.FORET)
-            vitesse/=2;
+            vitesse =vitesseBase/2;
         else if (terrain!=NatureTerrain.HABITAT&&terrain!=NatureTerrain.TERRAIN_LIBRE){
             vitesse=0;
         }
+        else vitesse = vitesseBase;
     }
     public void setVitesse(double vitesse){
         if (vitesse>80) throw new IllegalArgumentException("la vitesse du robot est superieure a 80km");
@@ -26,7 +27,7 @@ public class RobotAChenilles extends Robot {
     
     public double getTempsTotal(int vol)
     {
-        return vol * 1.5;
+        return vol * 0.15;
     }
     
 

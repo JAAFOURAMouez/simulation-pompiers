@@ -10,10 +10,12 @@ public abstract class Robot{
     private int reservoirEau;
     private Simulateur simulateur;
     protected double vitesse;
+    protected double vitesseBase;
     public Robot(Case position,int reservoirEau,int vitesse){
         this.position=position;
         this.reservoirEau=reservoirEau;
         this.vitesse=vitesse;
+        this.vitesseBase=vitesse;
     }
     public Case getPosition(){
         return position;

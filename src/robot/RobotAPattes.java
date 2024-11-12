@@ -9,7 +9,7 @@ public class RobotAPattes extends Robot {
     public void setVitesseSur(NatureTerrain terrain){
         if (terrain==NatureTerrain.EAU) vitesse=0;
         else if (terrain==NatureTerrain.ROCHE)vitesse=10;
-        else vitesse=30;
+        else vitesse=vitesseBase;
     }
     public boolean peutSeDeplacerSur(NatureTerrain terrain){
         return terrain!=NatureTerrain.EAU;

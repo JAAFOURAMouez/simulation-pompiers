@@ -15,7 +15,7 @@ public class Drone extends Robot {
     }
     //a modifier on peut lire la vitesse 
     public void setVitesseSur(NatureTerrain terrain){
-        vitesse= 100.0;
+        vitesse= vitesseBase;
     }
     public int getCapaciteMaxReservoir(){
         return 10000;

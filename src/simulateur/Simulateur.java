@@ -118,7 +118,7 @@ public class Simulateur implements Simulable {
             String robotImagePath = switch (robot.getType()) {
                 case "Drone" -> "ressources/drone.png";
                 case "RobotAPattes" -> "ressources/apattes.png";
-                case "RobotAChenilles" -> "ressources/achantilles.png";
+                case "RobotAChentilles" -> "ressources/achantilles.png";
                 default -> "ressources/firetruck.png";
             };
             int x = robot.getPosition().getColonne() * largeurCase;

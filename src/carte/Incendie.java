@@ -1,5 +1,7 @@
 package carte;
 
+import robot.Robot;
+
 public class Incendie {
     private Case position;
     private int intensite;
@@ -7,8 +9,6 @@ public class Incendie {
         this.position=position;
         this.intensite=intensite;
     }
-
-
     public void eteindre(int quantiteEau){
         if(quantiteEau>0){
             this.intensite-=quantiteEau;
@@ -32,5 +32,15 @@ public class Incendie {
     }
     public void setIntensite(int intensite){
         this.intensite=intensite;
+    }
+    public double tempsIntervention(Robot robot,int vol){
+        double tempsIntervention=0;
+        switch (robot.getType()) {
+            case "Drone" -> tempsIntervention=vol * 0.003;
+            case "RobotAChentilles" -> tempsIntervention=vol * 0.08;
+            case "RobotARoues" -> tempsIntervention=vol * 0.05;
+            default -> tempsIntervention=vol/10;
+        }
+        return tempsIntervention;
     }
 }
