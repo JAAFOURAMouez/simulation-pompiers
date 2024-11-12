@@ -68,8 +68,13 @@ public class Strategiez {
                     Case destinationEau=donnes.getCarte().getCase(caseEau.getLigne(),caseEau.getColonne());
                     if (!robot.getType().equals("Drone") && !robot.getType().equals("RobotAPattes"))
                     {
+
                         double minVoisin=Double.MAX_VALUE;
                         Case destinVoisine=new Case(0, 0, NatureTerrain.TERRAIN_LIBRE);
+                        if (donnes.getCarte().voisinExiste(destinationEau, Direction.EST))
+                        {
+
+
                         Case voisinEst=donnes.getCarte().getVoisin(destinationEau, Direction.EST);
                         if (robot.peutSeDeplacerSur(voisinEst.getNature()) )
                         {
@@ -79,7 +84,14 @@ public class Strategiez {
                                 destinVoisine=voisinEst;
                             }      
                         }
+                    
+                    }
+                    if (donnes.getCarte().voisinExiste(destinationEau, Direction.OUEST))
+                    {
+
+
                         Case voisinOuest=donnes.getCarte().getVoisin(destinationEau, Direction.OUEST);
+                        System.out.println(13);
                         if (robot.peutSeDeplacerSur(voisinOuest.getNature()))
                         {
                             ResultatChemin resultatO=r.calculerCheminOptimal(depart,voisinOuest,robot); 
@@ -89,6 +101,11 @@ public class Strategiez {
 
                             }      
                         }
+                    }
+                    if (donnes.getCarte().voisinExiste(destinationEau, Direction.NORD))
+                    {
+
+
                         Case voisinNord=donnes.getCarte().getVoisin(destinationEau, Direction.NORD);
                         if (robot.peutSeDeplacerSur(voisinNord.getNature()) )
                         {
@@ -98,6 +115,11 @@ public class Strategiez {
                                 destinVoisine=voisinNord;
                             }
                         }
+                    }
+                    if (donnes.getCarte().voisinExiste(destinationEau, Direction.SUD))
+                    {
+                        System.out.println(14);
+
                         Case voisinSud=donnes.getCarte().getVoisin(destinationEau, Direction.SUD);
                         if (robot.peutSeDeplacerSur(voisinSud.getNature()) )
                         {
@@ -107,6 +129,7 @@ public class Strategiez {
                                 destinVoisine=voisinSud;
                             }
                         }
+                    }
                         tempsEau=minVoisin;
                         if (tempsEau < minEau )
                         {
@@ -114,8 +137,6 @@ public class Strategiez {
                             plusProcheeau=destinVoisine;
                         }
                     }else{
-                        System.out.println("ind");
-                        System.out.println(destinationEau.getColonne() + " " + destinationEau.getLigne());
 
                         ResultatChemin resultat=r.calculerCheminOptimal(depart,destinationEau,robot); 
                         tempsEau=resultat.getTempsTotal();

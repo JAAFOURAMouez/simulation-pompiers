@@ -16,7 +16,7 @@ public class TestSimulateur {
             //Case destination = donnes.getCarte().getCase(donnes.geIncendies().get(1).getPosition().getLigne(), donnes.geIncendies().get(1).getPosition().getColonne()); // Exemple de case de destination
             // Afficher le niveau du réservoir d'eau du robot 
             //System.out.println(robot1.deplacerVersCase(destination));
-            Strategiez strat =new Strategiez();
+            Strategie strat =new Strategie();
             strat.chefPompier(donnes,simulateur);
 
         } catch (FileNotFoundException e) {

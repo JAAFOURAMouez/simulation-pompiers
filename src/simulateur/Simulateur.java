@@ -19,11 +19,14 @@ public class Simulateur implements  Simulable
     private  Carte carte;
     private List<Incendie> incendies;
     private List<Robot> robots;
+
     private List<Case> initialRobotPositions;
     private List<Double> initialRobotvitesse;
     private List<Integer> initialRobotReservoir;
     private List<Case> initialFirePositions;
     private List<Integer> initialFireintensite;
+    private List<Evenement> initialEvents;
+
 
     private long dateSimulation;
     private PriorityQueue<Evenement> evenements;
@@ -40,6 +43,7 @@ public class Simulateur implements  Simulable
     this.initialRobotPositions = new ArrayList<>();
     this.initialRobotReservoir = new ArrayList<>();
     this.initialRobotvitesse = new ArrayList<>();
+    this.initialEvents=new ArrayList<>();
 
     for (Robot robot : robots) {
         initialRobotPositions.add(robot.getPosition());  // Save initial position as Case
@@ -56,6 +60,10 @@ public class Simulateur implements  Simulable
         initialFireintensite.add(incendie.getIntensite());  // Save initial position as Case
 
     }
+
+    
+
+
 
     // GUI setup
     int largeur = 800;
@@ -152,32 +160,38 @@ public void afficherSimulation(Carte carte, int largeurCase, int hauteurCase) {
     }
     @Override
     public void restart() {
+        // Reset the simulation date
         this.dateSimulation = 0;
+        
+        // Clear the main event queue and reload events from the initial list
         this.evenements.clear();
-    
-        // Reset each robot's position to its initial position
+
+        
+        // Reset robots to their initial states
         for (int i = 0; i < robots.size(); i++) {
-            robots.get(i).setPosition(initialRobotPositions.get(i));  // Reset position
-            robots.get(i).setVitesse(initialRobotvitesse.get(i));  // Reset position
-            robots.get(i).setReservoirEau(initialRobotReservoir.get(i));  // Reset position
+            robots.get(i).setPosition(initialRobotPositions.get(i));
+            robots.get(i).setVitesse(initialRobotvitesse.get(i));
+            robots.get(i).setReservoirEau(initialRobotReservoir.get(i));
         }
-    
-        // Reset each fire's position to its initial position
+        
+        // Reset fires to their initial states
         for (int i = 0; i < incendies.size(); i++) {
-            incendies.get(i).setPosition(initialFirePositions.get(i));  // Reset position
-            incendies.get(i).setIntensite(initialFireintensite.get(i));  // Reset position
+            incendies.get(i).setPosition(initialFirePositions.get(i));
+            incendies.get(i).setIntensite(initialFireintensite.get(i));
         }
     
+        // Redraw the GUI to reflect the initial state
         int largeur = 800;
         int hauteur = 600;
         int largeurCase = largeur / carte.getNbColonnes();
         int hauteurCase = hauteur / carte.getNbLignes();
         afficherSimulation(carte, largeurCase, hauteurCase);
-    
-        // Repaint the GUI to reflect the reset state
+        
+        // Repaint the GUI to ensure the reset state is shown
         gui.repaint();
     }
-    
+
+
     public void ajouteEvenement(Evenement e)
     {
         evenements.add(e);

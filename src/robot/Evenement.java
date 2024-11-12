@@ -1,4 +1,5 @@
 package robot;
+
 public abstract class Evenement implements Comparable<Evenement> {
     private long date;
 
@@ -9,6 +10,8 @@ public abstract class Evenement implements Comparable<Evenement> {
     public long getDate() {
         return date;
     }
+
+    
 
     @Override
     public int compareTo(Evenement other) {
