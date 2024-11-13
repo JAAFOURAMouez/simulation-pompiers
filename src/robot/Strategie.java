@@ -14,7 +14,7 @@ public class Strategie {
     public void chefPompier(DonneeSimulation donnes,Simulateur simulateur)
     {
         robots=donnes.getRobots();
-        incendies=donnes.geIncendies();
+        incendies=donnes.getIncendies();
         casesEau=donnes.getCasesEau();
         boolean remplir=false;
         long t = simulateur.getDateSimulation()-1;
@@ -543,8 +543,6 @@ public class Strategie {
                            // System.out.println(eteindre.getType());
                             t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), plusProcheeau, t+1);
                             Remplissage re = new Remplissage(eteindre,t, incendiesQuadrant4.get(i).getIntensite() - etat.get(eteindre).getreservoir());
-                           
-            
                             etat.put(eteindre, new EtatDetails(min, plusProcheeau, Math.min(incendiesQuadrant4.get(i).getIntensite(),eteindre.getCapaciteMaxReservoir()),t));
             
                             simulateur.ajouteEvenement(re);

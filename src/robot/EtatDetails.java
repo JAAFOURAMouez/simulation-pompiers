@@ -5,7 +5,7 @@ public class EtatDetails {
     private Double temps;
     private Case caseAssociee;
     private int reservoir;
-    private long tempsCour;
+    private final long tempsCour;
 
     public EtatDetails(Double temps, Case caseAssociee, int reservoir, long tempsCour) {
         this.temps = temps;

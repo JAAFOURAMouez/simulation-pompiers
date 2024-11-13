@@ -5,10 +5,10 @@ import robot.*;
 
 
 public class DonneeSimulation {
-    private Carte carte;
-    private List<Robot> robots;
-    private List<Incendie> incendies;
-    private List<Case> casesEau;
+    private final Carte carte;
+    private final List<Robot> robots;
+    private final List<Incendie> incendies;
+    private final List<Case> casesEau;
 
     public DonneeSimulation(Carte carte,List<Incendie> incendies,
                             List<Robot>robots,List<Case> casesEau){
@@ -23,7 +23,7 @@ public class DonneeSimulation {
     public void ajoutRobot(Robot robot){
         this.robots.add(robot); 
     }
-    public List<Incendie> geIncendies(){
+    public List<Incendie> getIncendies(){
         return incendies;
     }
     public List<Robot> getRobots(){

@@ -1,14 +1,10 @@
 package robot;
 import carte.*;
-import java.awt.image.RescaleOp;
-import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.DoubleStream;
-import javax.print.DocFlavor;
-import javax.print.attribute.standard.Destination;
 import simulateur.*;
 
 
@@ -19,11 +15,13 @@ public class Strategiez {
 
     public void chefPompier(DonneeSimulation donnes, Simulateur simulateur) {
         robots = donnes.getRobots();
-        incendies = donnes.geIncendies();
+        incendies = trierIncendiesParProximite(donnes);
+        for (Incendie incendie : incendies) {
+            System.out.println("Incendie à la position: (" + incendie.getPosition().getLigne() + ", " + incendie.getPosition().getColonne() + ")");
+        }
         casesEau = donnes.getCasesEau();
         boolean remplir = false;
-        long t = simulateur.getDateSimulation() - 1;
-        long tempsGlobal = 0;
+        long t=0;
 
         Map<Robot, EtatDetails> etat = new HashMap<>();
         for (Robot robot : robots) {
@@ -32,7 +30,7 @@ public class Strategiez {
 
         RechercheChemin r = new RechercheChemin(donnes.getCarte());
 
-        for (int i = 0; i < incendies.size(); i++) {
+        for (int i = 0; i < incendies.size(); i++){
             Robot eteindre = null;
             Case destination = donnes.getCarte().getCase(incendies.get(i).getPosition().getLigne(), incendies.get(i).getPosition().getColonne());
             double minTemps = Double.MAX_VALUE;
@@ -42,7 +40,15 @@ public class Strategiez {
                 robot.setCarte(donnes.getCarte());
                 robot.setSimulateur(simulateur);
                 EtatDetails details = etat.get(robot);
-
+                if (details != null) {
+                    t = details.gettempsCour();
+                } else {
+                    // Si l'état du robot n'a pas été trouvé dans le map, tu peux gérer le cas, par exemple :
+                    System.out.println("L'état du robot n'a pas été trouvé.");
+                    // Ou bien initialiser `details` ici, si nécessaire :
+                    details = new EtatDetails(0.0, eteindre.getPosition(), eteindre.getNiveauReservoirEau(), t);
+                    etat.put(eteindre, details);
+                }
                 Case depart = details.getCaseAssociee();
                 double temps;
                 int volIntervention = Math.min(details.getreservoir(), incendies.get(i).getIntensite());
@@ -109,7 +115,6 @@ public class Strategiez {
                 etat.put(eteindre, new EtatDetails(minTemps, destination, etat.get(eteindre).getreservoir() - incendies.get(i).getIntensite(), t));
                 simulateur.ajouteEvenement(in);
             }
-            tempsGlobal += t;
         }
     }
 
@@ -183,5 +188,49 @@ public class Strategiez {
             }
         }
         return new SimpleEntry<>(plusProcheeau,minEau);
+    }
+    // Méthode pour trier les incendies par proximité les uns des autres
+    public List<Incendie> trierIncendiesParProximite(DonneeSimulation donnes) {
+        incendies = donnes.getIncendies();
+
+        if (incendies.isEmpty()) return incendies;
+
+        List<Incendie> incendiesTries = new ArrayList<>();
+        Incendie incendieActuel = incendies.get(0);  // On commence par le premier incendie
+        incendiesTries.add(incendieActuel);
+        List<Incendie> incendiesRestants = new ArrayList<>(incendies);
+        incendiesRestants.remove(incendieActuel);
+
+        while (!incendiesRestants.isEmpty()) {
+            // Trouver l'incendie le plus proche
+            Incendie incendieLePlusProche = trouverIncendieLePlusProche(incendieActuel, incendiesRestants);
+            incendiesTries.add(incendieLePlusProche);
+            incendiesRestants.remove(incendieLePlusProche);
+            incendieActuel = incendieLePlusProche;
+        }
+
+        return incendiesTries;
+    }
+
+    // Méthode pour trouver l'incendie le plus proche
+    private Incendie trouverIncendieLePlusProche(Incendie incendieActuel, List<Incendie> incendiesRestants) {
+        double distanceMin = Double.MAX_VALUE;
+        Incendie incendieLePlusProche = null;
+
+        for (Incendie incendie : incendiesRestants) {
+            double distance = calculerDistance(incendieActuel.getPosition(), incendie.getPosition());
+            if (distance < distanceMin) {
+                distanceMin = distance;
+                incendieLePlusProche = incendie;
+            }
+        }
+        return incendieLePlusProche;
+    }
+
+    // Méthode pour calculer la distance euclidienne entre deux cases (incendies)
+    private double calculerDistance(Case c1, Case c2) {
+        int dx = c1.getLigne() - c2.getLigne();
+        int dy = c1.getColonne() - c2.getColonne();
+        return Math.sqrt(dx * dx + dy * dy);
     }
 } 

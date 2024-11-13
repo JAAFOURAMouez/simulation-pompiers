@@ -34,7 +34,7 @@ public class Incendie {
         this.intensite=intensite;
     }
     public double tempsIntervention(Robot robot,int vol){
-        double tempsIntervention=0;
+        double tempsIntervention;
         switch (robot.getType()) {
             case "Drone" -> tempsIntervention=vol * 0.003;
             case "RobotAChentilles" -> tempsIntervention=vol * 0.08;

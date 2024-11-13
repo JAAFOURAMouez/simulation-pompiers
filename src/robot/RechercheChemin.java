@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
 
 public class RechercheChemin {
-    private Carte carte;
+    private final Carte carte;
 
     public RechercheChemin(Carte carte) {
         this.carte = carte;

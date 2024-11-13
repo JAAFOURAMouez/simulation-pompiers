@@ -11,27 +11,25 @@ import gui.ImageElement;
 import java.util.ArrayList;
 import java.util.List;
 
+public final class Simulateur implements Simulable {
 
+    private final Carte carte;
+    private final List<Incendie> incendies;
+    private final List<Robot> robots;
 
-public class Simulateur implements Simulable {
-
-    private Carte carte;
-    private List<Incendie> incendies;
-    private List<Robot> robots;
-
-    private List<Case> initialRobotPositions;
-    private List<Double> initialRobotvitesse;
-    private List<Integer> initialRobotReservoir;
-    private List<Integer> initialFireintensite;
-    private List<Evenement> initialEvents;
+    private final List<Case> initialRobotPositions;
+    private final List<Double> initialRobotvitesse;
+    private final List<Integer> initialRobotReservoir;
+    private final List<Integer> initialFireintensite;
+    private final List<Evenement> initialEvents;
 
     private long dateSimulation;
-    private PriorityQueue<Evenement> evenements;
+    private final PriorityQueue<Evenement> evenements;
     private GUISimulator gui;  
 
     public Simulateur(DonneeSimulation donnes) {
         this.carte = donnes.getCarte();
-        this.incendies = donnes.geIncendies();
+        this.incendies = donnes.getIncendies();
         this.robots = donnes.getRobots();
         this.dateSimulation = 0;
         this.evenements = new PriorityQueue<>();
@@ -81,23 +79,13 @@ public class Simulateur implements Simulable {
                 NatureTerrain nature = myCase.getNature();
                 String imagePath;
 
-                switch (nature) {
-                    case EAU:
-                        imagePath = "ressources/sea.png";
-                        break;
-                    case FORET:
-                        imagePath = "ressources/forest.png";
-                        break;
-                    case ROCHE:
-                        imagePath = "ressources/rocks.png";
-                        break;
-                    case HABITAT:
-                        imagePath = "ressources/city.png";
-                        break;
-                    default:
-                        imagePath = "ressources/grass.png";
-                        break;
-                }
+                imagePath = switch (nature) {
+                    case EAU -> "ressources/sea.png";
+                    case FORET -> "ressources/forest.png";
+                    case ROCHE -> "ressources/rocks.png";
+                    case HABITAT -> "ressources/city.png";
+                    default -> "ressources/grass.png";
+                };
 
                 gui.addGraphicalElement(new ImageElement(x, y, imagePath, largeurCase, hauteurCase, null));
             }
@@ -184,6 +172,7 @@ public class Simulateur implements Simulable {
         return dateSimulation;
     }
 
+    @SuppressWarnings("unused")
     private boolean simulationTerminee(long date) {
         return date > dateSimulation;
     }

@@ -6,24 +6,31 @@ public class RobotAPattes extends Robot {
     public RobotAPattes(Case position){
         super(position, Integer.MAX_VALUE, 30);
     }
+    @Override
     public void setVitesseSur(NatureTerrain terrain){
-        if (terrain==NatureTerrain.EAU) vitesse=0;
-        else if (terrain==NatureTerrain.ROCHE)vitesse=10;
-        else vitesse=vitesseBase;
+        vitesse = switch (terrain) {
+            case EAU -> 0;
+            case ROCHE -> 10;
+            default -> vitesseBase;
+        };
     }
+    @Override
     public boolean peutSeDeplacerSur(NatureTerrain terrain){
         return terrain!=NatureTerrain.EAU;
     }
+    @Override
     public void setVitesse(double vitesse){
         this.vitesse=vitesse;
     }
+    @Override
     public int getCapaciteMaxReservoir(){
         return Integer.MAX_VALUE;
     }
-    public double getTempsTotal(int vol)
-    {
+    @Override
+    public double getTempsTotal(int vol){
         return 0;
     }
+    @Override
     public String getType(){
         return "RobotAPattes";
     }
