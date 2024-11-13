@@ -9,15 +9,17 @@ all: compile
 # Cible pour la compilation des fichiers Java
 compile:
 	@echo "Compilation des fichiers Java..."
-	@mkdir -p $(OUT_DIR)
-	@find $(SRC_DIRS) -name "*.java" | xargs javac -d $(OUT_DIR) -cp src
-
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/tests/TestSimulateur.java
 # Cible pour exécuter TestSimulateur
-run:
-	@cp -r src/gui bin/gui
-	@echo "Exécution de TestSimulateur..."
-	@java -cp $(OUT_DIR) tests.TestSimulateur
-
+run_spiral:
+	@echo "Exécution de TestSimulateur sur spiral.map ... "
+	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/spiral.map
+run_hell:
+	@echo "Exécution de TestSimulateur sur hell.map ... "
+	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/hell.map
+run_carteSujet:
+	@echo "Exécution de TestSimulateur sur hell.map ... "
+	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/carteSujet.map
 # Cible pour nettoyer les fichiers compilés
 clean:
 	@echo "Nettoyage des fichiers compilés..."

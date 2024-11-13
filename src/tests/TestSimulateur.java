@@ -6,21 +6,26 @@ import simulateur.*;
 public class TestSimulateur {
     public static void main(String[] args) {
         try {
-            DonneeSimulation donnes = LectureDonnee.lire("maps/carteSujet.map");
+            // Vérifier si un argument (nom du fichier de la carte) a été fourni
+            if (args.length == 0) {
+                System.err.println("Veuillez fournir le nom du fichier de la carte en argument.");
+                return;
+            }
+
+            // Utiliser le premier argument comme nom du fichier de la carte
+            String nomFichierCarte = args[0];
+            DonneeSimulation donnes = LectureDonnee.lire(nomFichierCarte);
             Simulateur simulateur = new Simulateur(donnes);
-           
-            //Robot robot1 = donnes.getRobots().get(1);
-            //robot1.setCarte(donnes.getCarte());
-            //robot1.setSimulateur(simulateur);
-            //Case depart = robot1.getPosition(); // Exemple de case de départ
-            //Case destination = donnes.getCarte().getCase(donnes.getIncendies().get(1).getPosition().getLigne(), donnes.getIncendies().get(1).getPosition().getColonne()); // Exemple de case de destination
-            // Afficher le niveau du réservoir d'eau du robot 
-            //System.out.println(robot1.deplacerVersCase(destination));
-            Strategiez strat =new Strategiez();
-            strat.chefPompier(donnes,simulateur);
+
+            // Utilisation de la stratégie
+            Strategiez strat = new Strategiez();
+            strat.chefPompier(donnes, simulateur);
 
         } catch (FileNotFoundException e) {
-            System.err.println("Fichier de carte non trouvé !");
-        } 
+            System.err.println("Fichier de carte '" + args[0] + "' non trouvé !");
+        } catch (Exception e) {
+            System.err.println("Une erreur est survenue : " + e.getMessage());
+        }
     }
 }
+
