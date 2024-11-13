@@ -1,7 +1,7 @@
 package robot;
 
 public abstract class Evenement implements Comparable<Evenement> {
-    private long date;
+    private final long date;
 
     public Evenement(long date) {
         this.date = date;

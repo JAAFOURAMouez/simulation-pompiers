@@ -3,8 +3,8 @@ package robot;
 public class Remplissage extends Evenement
 {
 
-    private Robot robot;
-    private int vol;
+    private final Robot robot;
+    private final int vol;
 
     Remplissage(Robot robot,long date, int vol)
     {

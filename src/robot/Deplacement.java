@@ -5,7 +5,7 @@ public class Deplacement extends Evenement
 
     // classe qui gere le deplacement d'un robot selon la direction donnee
 
-    public Robot robot;
+    protected Robot robot;
     public Direction direction;
     public Carte carte;
 
