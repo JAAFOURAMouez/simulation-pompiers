@@ -18,8 +18,16 @@ run_hell:
 	@echo "Exécution de TestSimulateur sur hell.map ... "
 	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/hell.map
 run_carteSujet:
-	@echo "Exécution de TestSimulateur sur hell.map ... "
+	@echo "Exécution de TestSimulateur sur carteSujet.map ... "
 	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/carteSujet.map
+
+run_mush:
+	@echo "Exécution de TestSimulateur sur carteSujet.map ... "
+	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/mushroom.map
+
+run_desert:
+	@echo "Exécution de TestSimulateur sur desert.map ... "
+	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/desert.map
 # Cible pour nettoyer les fichiers compilés
 clean:
 	@echo "Nettoyage des fichiers compilés..."

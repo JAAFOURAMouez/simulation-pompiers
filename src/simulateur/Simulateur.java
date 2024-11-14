@@ -158,12 +158,14 @@ public final class Simulateur implements Simulable {
     public void ajouteEvenement(Evenement e) {
         evenements.add(e);
         initialEvents.add(e);
+        
     }
 
     private void incrementeDate() {
         while (!evenements.isEmpty() && evenements.peek().getDate() <= dateSimulation) {
             Evenement e = evenements.poll();
             e.execute();
+            //System.out.println("Executing event at time: " + e.getDate());  // Impression directe lors de l'exécution
         }
         dateSimulation++;
     }

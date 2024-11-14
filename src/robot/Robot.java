@@ -111,6 +111,8 @@ public abstract class Robot{
 
         List<SimpleEntry<Case, Direction>> cheminOptimal = resultat.getCheminOptimal();
         long temps = t;
+        double tempsDeplacement;
+        
 
         // Programmer les événements de déplacement pour chaque étape du chemin
         for (SimpleEntry<Case, Direction> etape : cheminOptimal) {
@@ -119,9 +121,13 @@ public abstract class Robot{
             if (direction != null) { // Ignorer la première case (départ)
                 Deplacement deplacement = new Deplacement(carte, this, direction, temps);
                 simulateur.ajouteEvenement(deplacement);
-                temps += 1; // Incrémenter le temps pour chaque déplacement
+                tempsDeplacement= carte.getTailleCases() / (1000 *this.getVitesse());//par h
+                tempsDeplacement*=3600;//par s
+
+                temps += (long) tempsDeplacement; // Incrémenter le temps pour chaque déplacement
             }
         }
+        
         // System.out.println("------------------------------------------------");
         return temps - t;
     }

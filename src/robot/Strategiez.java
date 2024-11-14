@@ -2,9 +2,11 @@ package robot;
 import carte.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import simulateur.*;
 
 
@@ -12,13 +14,20 @@ public class Strategiez {
     private List<Robot> robots;
     private List<Incendie> incendies;
     private List<Case> casesEau;
+    private PriorityQueue<Evenement> evenements;
 
     public void chefPompier(DonneeSimulation donnes, Simulateur simulateur) {
         robots = donnes.getRobots();
+        
+        for (Robot robot:robots)
+        {
+            System.out.println("Robot type: " + robot.getType() + ", Speed: " + robot.getVitesse());
+        }
         incendies = trierIncendiesParProximite(donnes);
         for (Incendie incendie : incendies) {
             System.out.println("Incendie à la position: (" + incendie.getPosition().getLigne() + ", " + incendie.getPosition().getColonne() + ")");
         }
+        evenements = new PriorityQueue<>(Comparator.comparingLong(Evenement::getDate));
         casesEau = donnes.getCasesEau();
         boolean remplir = false;
         long t=0;
@@ -91,6 +100,7 @@ public class Strategiez {
             if (remplir) {
                 t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), plusProche(donnes, etat.get(eteindre).getCaseAssociee(), eteindre, casesEau).getKey(), t + 1);
                 Remplissage re = new Remplissage(eteindre, t, incendies.get(i).getIntensite() - etat.get(eteindre).getreservoir());
+
                 etat.put(eteindre, new EtatDetails(minTemps, plusProche(donnes, etat.get(eteindre).getCaseAssociee(), eteindre, casesEau).getKey(), Math.min(incendies.get(i).getIntensite(), eteindre.getCapaciteMaxReservoir()), t));
                 simulateur.ajouteEvenement(re);
                 t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), destination, t + 1);
@@ -115,6 +125,9 @@ public class Strategiez {
                 etat.put(eteindre, new EtatDetails(minTemps, destination, etat.get(eteindre).getreservoir() - incendies.get(i).getIntensite(), t));
                 simulateur.ajouteEvenement(in);
             }
+            System.out.println(eteindre.getType());
+            System.out.println(eteindre.getVitesse());
+
         }
     }
 
