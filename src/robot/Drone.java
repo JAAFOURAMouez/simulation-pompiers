@@ -20,6 +20,12 @@ public class Drone extends Robot {
     public void setVitesseSur(NatureTerrain terrain){
         vitesse= vitesseBase;
     }
+    public void setVitesseBase(double vitesse){
+        if (vitesse>150) throw new IllegalArgumentException("la vitesse du drone est superieure a 150km");
+        else {this.vitesseBase=vitesse;
+            this.vitesse=vitesse;
+        }
+    }
     @Override
     public int getCapaciteMaxReservoir(){
         return 10000;

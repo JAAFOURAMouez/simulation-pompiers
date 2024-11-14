@@ -24,6 +24,10 @@ public abstract class Robot{
     {
         return vitesse;
     }
+    public double getVitesseBase()
+    {
+        return vitesseBase;
+    }
 
     public void setCarte(Carte carte){
         this.carte = carte;

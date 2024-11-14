@@ -109,7 +109,7 @@ public class LectureDonnee {
                     return drone;
                 }
                 Drone drone=new Drone(positionRobot);
-                drone.setVitesse(vitesse);
+                drone.setVitesseBase(vitesse);
                 return drone;
 
                 
@@ -125,7 +125,7 @@ public class LectureDonnee {
 
 
                 RobotARoues robot_a_roues=new RobotARoues(positionRobot);
-                robot_a_roues.setVitesse(vitesse);
+                robot_a_roues.setVitesseBase(vitesse);
                 return robot_a_roues;
             case "PATTES":
                 if (vitesse==0)
@@ -135,7 +135,7 @@ public class LectureDonnee {
                     return robot_a_pattes;   
                 }
                     RobotAPattes robot_a_pattes=new RobotAPattes(positionRobot);
-                    robot_a_pattes.setVitesse(vitesse);
+                    robot_a_pattes.setVitesseBase(vitesse);
                     return robot_a_pattes;   
 
             case "CHENILLES":
@@ -146,7 +146,7 @@ public class LectureDonnee {
                     return robot;
                 }
                 RobotAChenilles robot= new RobotAChenilles(positionRobot);
-                robot.setVitesse(vitesse);
+                robot.setVitesseBase(vitesse);
                 return robot;
             default:
                 throw new IllegalArgumentException("Type de robot inconnu : "+ typeRobot);

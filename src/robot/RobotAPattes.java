@@ -22,6 +22,10 @@ public class RobotAPattes extends Robot {
     public void setVitesse(double vitesse){
         this.vitesse=vitesse;
     }
+    public void setVitesseBase(double vitesse){
+        this.vitesse=vitesse;
+        this.vitesseBase = vitesse;
+    }
     @Override
     public int getCapaciteMaxReservoir(){
         return Integer.MAX_VALUE;

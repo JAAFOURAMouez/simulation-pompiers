@@ -24,6 +24,13 @@ public class RobotAChenilles extends Robot {
         if (vitesse>80) throw new IllegalArgumentException("la vitesse du robot est superieure a 80km");
         else this.vitesse=vitesse;
     }
+
+    public void setVitesseBase(double vitesse){
+        if (vitesse>80) throw new IllegalArgumentException("la vitesse du robot est superieure a 80km");
+        else {this.vitesse=vitesse;
+            this.vitesseBase = vitesse;
+        }
+    }
     @Override
     public int getCapaciteMaxReservoir(){
         return 2000;
