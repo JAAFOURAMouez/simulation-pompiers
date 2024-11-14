@@ -167,7 +167,9 @@ public final class Simulateur implements Simulable {
             e.execute();
             //System.out.println("Executing event at time: " + e.getDate());  // Impression directe lors de l'exécution
         }
-        dateSimulation++;
+        if (!evenements.isEmpty()) {
+            dateSimulation = evenements.peek().getDate();
+        }
     }
 
     public long getDateSimulation() {
