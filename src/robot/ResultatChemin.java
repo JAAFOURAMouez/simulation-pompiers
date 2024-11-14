@@ -1,8 +1,8 @@
 package robot;
 
-import java.util.List;
-import java.util.AbstractMap.SimpleEntry;
 import carte.*;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.List;
 public class ResultatChemin {
     private List<SimpleEntry<Case, Direction>> cheminOptimal;
     private double tempsTotal;

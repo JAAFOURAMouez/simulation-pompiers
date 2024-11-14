@@ -95,36 +95,51 @@ public class Strategiez {
                     }
                 }
             }
-
+            int voll=0;
             t = etat.get(eteindre).gettempsCour();
             if (remplir) {
                 t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), plusProche(donnes, etat.get(eteindre).getCaseAssociee(), eteindre, casesEau).getKey(), t + 1);
+                t+=eteindre.getTempsTotal(eteindre.getCapaciteMaxReservoir() - etat.get(eteindre).getreservoir());
+                
                 Remplissage re = new Remplissage(eteindre, t, incendies.get(i).getIntensite() - etat.get(eteindre).getreservoir());
 
                 etat.put(eteindre, new EtatDetails(minTemps, plusProche(donnes, etat.get(eteindre).getCaseAssociee(), eteindre, casesEau).getKey(), Math.min(incendies.get(i).getIntensite(), eteindre.getCapaciteMaxReservoir()), t));
                 simulateur.ajouteEvenement(re);
                 t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), destination, t + 1);
+                voll = Math.min(etat.get(eteindre).getreservoir(), incendies.get(i).getIntensite());
+                t+=incendies.get(i).tempsIntervention(eteindre, voll);
                 Intervention in = new Intervention(eteindre, incendies.get(i), t);
+
                 etat.put(eteindre, new EtatDetails(minTemps, destination, etat.get(eteindre).getreservoir() - Math.min(incendies.get(i).getIntensite(), eteindre.getCapaciteMaxReservoir()), t));
                 simulateur.ajouteEvenement(in);
 
                 while (nbFinal > 1) {
                     t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), plusProche(donnes, incendies.get(i).getPosition(), eteindre, casesEau).getKey(), t + 1);
+                    t+=eteindre.getTempsTotal(eteindre.getCapaciteMaxReservoir() -  etat.get(eteindre).getreservoir());
+
                     re = new Remplissage(eteindre, t, incendies.get(i).getIntensite() - etat.get(eteindre).getreservoir());
                     etat.put(eteindre, new EtatDetails(minTemps, plusProche(donnes, incendies.get(i).getPosition(), eteindre, casesEau).getKey(), Math.min(incendies.get(i).getIntensite(), eteindre.getCapaciteMaxReservoir()), t));
                     simulateur.ajouteEvenement(re);
                     t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), destination, t + 1);
+                    voll = Math.min(etat.get(eteindre).getreservoir(), incendies.get(i).getIntensite());
+                    t+=incendies.get(i).tempsIntervention(eteindre, voll);
                     in = new Intervention(eteindre, incendies.get(i), t);
+
                     etat.put(eteindre, new EtatDetails(minTemps, destination, etat.get(eteindre).getreservoir() - Math.min(incendies.get(i).getIntensite(), eteindre.getCapaciteMaxReservoir()), t));
                     simulateur.ajouteEvenement(in);
                     nbFinal--;
                 }
             } else {
                 t += eteindre.deplacerVersCase(etat.get(eteindre).getCaseAssociee(), destination, t + 1);
+                t+=eteindre.getTempsTotal(eteindre.getCapaciteMaxReservoir() -  etat.get(eteindre).getreservoir());
+                voll = Math.min(etat.get(eteindre).getreservoir(), incendies.get(i).getIntensite());
+                t+=incendies.get(i).tempsIntervention(eteindre, voll);
                 Intervention in = new Intervention(eteindre, incendies.get(i), t);
+
                 etat.put(eteindre, new EtatDetails(minTemps, destination, etat.get(eteindre).getreservoir() - incendies.get(i).getIntensite(), t));
                 simulateur.ajouteEvenement(in);
             }
+            System.out.println("Le niveau est >>>>>>>>>" + ' ' + eteindre.getNiveauReservoirEau());
             System.out.println(eteindre.getType());
             System.out.println(eteindre.getVitesse() +  " " + eteindre.getVitesseBase());
 

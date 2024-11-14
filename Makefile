@@ -10,28 +10,16 @@ all: compile
 compile:
 	@echo "Compilation des fichiers Java..."
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/tests/TestSimulateur.java
-# Cible pour exécuter TestSimulateur
-run_spiral:
-	@echo "Exécution de TestSimulateur sur spiral.map ... "
-	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/spiral.map
-run_hell:
-	@echo "Exécution de TestSimulateur sur hell.map ... "
-	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/hell.map
-run_carteSujet:
-	@echo "Exécution de TestSimulateur sur carteSujet.map ... "
-	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/carteSujet.map
 
-run_mush:
-	@echo "Exécution de TestSimulateur sur carteSujet.map ... "
-	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/mushroom.map
+# Default target for running TestSimulateur with a specified map
+run:
+	@echo "Exécution de TestSimulateur sur $(MAP) ..."
+	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/$(MAP)
 
-run_desert:
-	@echo "Exécution de TestSimulateur sur desert.map ... "
-	@java -classpath bin:lib/gui.jar tests.TestSimulateur maps/desert.map
-# Cible pour nettoyer les fichiers compilés
+# Clean target to remove compiled files (if needed)
 clean:
-	@echo "Nettoyage des fichiers compilés..."
-	@rm -rf $(OUT_DIR) $(JAR_FILE)
+	@echo "Cleaning compiled files..."
+	@rm -rf bin/*.class
 
 # Cible pour ajouter, commettre et pousser sur Git
 push:
