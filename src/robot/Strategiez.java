@@ -14,8 +14,6 @@ public class Strategiez {
     private List<Robot> robots;
     private List<Incendie> incendies;
     private List<Case> casesEau;
-    private PriorityQueue<Evenement> evenements;
-
     public void chefPompier(DonneeSimulation donnes, Simulateur simulateur) {
         robots = donnes.getRobots();
         
@@ -24,10 +22,7 @@ public class Strategiez {
             System.out.println("Robot type: " + robot.getType() + ", Speed: " + robot.getVitesse() + " " + robot.getVitesseBase());
         }
         incendies = trierIncendiesParProximite(donnes);
-        for (Incendie incendie : incendies) {
-            // System.out.println("Incendie à la position: (" + incendie.getPosition().getLigne() + ", " + incendie.getPosition().getColonne() + ")");
-        }
-        evenements = new PriorityQueue<>(Comparator.comparingLong(Evenement::getDate));
+        new PriorityQueue<>(Comparator.comparingLong(Evenement::getDate));
         casesEau = donnes.getCasesEau();
         boolean remplir = false;
         long t=0;

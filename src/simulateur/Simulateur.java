@@ -1,8 +1,6 @@
 package simulateur;
 import java.util.PriorityQueue;
 import gui.GUISimulator;
-import gui.Rectangle;
-import gui.Oval;
 import robot.*;
 import carte.*;
 import java.awt.Color;
