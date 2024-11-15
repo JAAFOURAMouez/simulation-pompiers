@@ -31,14 +31,7 @@ test:
 # Clean target to remove compiled files (if needed)
 clean:
 	@echo "Cleaning compiled files..."
-	@rm -rf bin/*.class
-
-# Cible pour ajouter, commettre et pousser sur Git
-push:
-	@echo "Poussée des modifications vers le dépôt Git..."
-	@git add .
-	@git commit -m "Commit des modifications"
-	@git push
+	@rm -rf bin
 
 # Cible pour créer le fichier JAR
 jar:
