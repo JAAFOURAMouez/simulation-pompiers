@@ -10,6 +10,9 @@ all: compile
 compile:
 	@echo "Compilation des fichiers Java..."
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/tests/TestSimulateur.java
+	@echo "Pour executer, il suffit d'utiliser la commande"
+	@echo "make run MAP=nom_map.map"
+	@echo "Exemple: make run MAP=hell.map"
 
 # Default target for running TestSimulateur with a specified map
 run:
