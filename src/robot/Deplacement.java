@@ -1,5 +1,10 @@
 package robot;
 import carte.*;
+
+
+/**
+ * Classe représentant un evenement de deplacement sur la carte.
+ */
 public class Deplacement extends Evenement
 {
     // Cette classe gère le déplacement d'un robot dans une direction donnée

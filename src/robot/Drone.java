@@ -1,7 +1,9 @@
 package robot;
 import carte.Case;
 import carte.NatureTerrain;
-
+/**
+ * Classe représentant un robot de type drone.
+ */
 public class Drone extends Robot {
     /**
      * Constructeur du drone.

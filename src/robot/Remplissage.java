@@ -1,5 +1,9 @@
 package robot;
 
+/**
+ * Classe représentant un remplissage d'un robot pour éteindre un incendie.
+ * Hérite de la classe abstraite Evenement.
+ */
 public class Remplissage extends Evenement
 {
     private final Robot robot;  // Référence au robot dont le réservoir d'eau sera rempli

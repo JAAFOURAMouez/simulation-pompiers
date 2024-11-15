@@ -1,74 +1,124 @@
 package robot;
+
 import carte.Case;
 import carte.NatureTerrain;
 
-// Classe représentant un robot à chenilles, qui hérite de la classe abstraite Robot
+/**
+ * Classe représentant un robot à chenilles. Ce robot hérite de la classe abstraite {@link Robot}.
+ * Le robot à chenilles a des capacités spécifiques en fonction des types de terrains sur lesquels il peut se déplacer.
+ * 
+ * <p>Le robot possède un réservoir d'eau, une vitesse de déplacement et peut être influencé par différents types de terrains.
+ * Il est conçu pour se déplacer sur des terrains tels que la forêt, les habitats et les terrains dégagés, mais il ne peut pas traverser
+ * des terrains comme les roches ou l'eau.</p>
+ */
 public class RobotAChenilles extends Robot {
 
-    // Constructeur du robot à chenilles. Il initialise le robot avec une position et des valeurs par défaut.
+    /**
+     * Constructeur du robot à chenilles.
+     * 
+     * @param position La position initiale du robot sur la carte.
+     * Le réservoir d'eau est initialisé à 2000 unités et la vitesse de base est de 60 km/h.
+     */
     public RobotAChenilles(Case position) {
-        super(position, 2000, 60); // Le réservoir d'eau est de 2000 unités et la vitesse de base est de 60 km/h
+        super(position, 2000, 60); // Initialisation avec un réservoir de 2000 et une vitesse de 60 km/h
     }
 
-    // Méthode qui détermine si le robot peut se déplacer sur un terrain donné.
-    // Le robot ne peut pas se déplacer sur des terrains rocheux ou aquatiques.
+    /**
+     * Détermine si le robot peut se déplacer sur un terrain donné.
+     * 
+     * <p>Le robot à chenilles ne peut pas se déplacer sur des terrains rocheux ou aquatiques.</p>
+     * 
+     * @param terrain Le terrain sur lequel on vérifie la possibilité de déplacement.
+     * @return true si le robot peut se déplacer sur le terrain, false sinon.
+     */
     @Override
     public boolean peutSeDeplacerSur(NatureTerrain terrain) {
-        return !(terrain == NatureTerrain.ROCHE || terrain == NatureTerrain.EAU); // Retourne false si le terrain est de type ROCHE ou EAU
+        return !(terrain == NatureTerrain.ROCHE || terrain == NatureTerrain.EAU); // Le robot ne peut pas se déplacer sur les terrains rocheux ou aquatiques
     }
 
-    // Méthode qui ajuste la vitesse du robot en fonction du terrain sur lequel il se trouve.
+    /**
+     * Ajuste la vitesse du robot en fonction du terrain sur lequel il se trouve.
+     * 
+     * <p>Si le robot se trouve sur un terrain forestier, sa vitesse est réduite de moitié.
+     * Il ne peut pas se déplacer sur des terrains comme l'eau ou la roche. Sur les autres terrains, la vitesse reste inchangée.</p>
+     * 
+     * @param terrain Le terrain sur lequel le robot se trouve.
+     */
     @Override
     public void setVitesseSur(NatureTerrain terrain) {
-        // Si le terrain est de type FORET, la vitesse du robot est réduite à moitié
         if (terrain == NatureTerrain.FORET) {
-            vitesse = vitesseBase / 2; // Réduction de la vitesse à moitié dans une forêt
-        }
-        // Si le terrain est de type HABITAT ou TERRAIN_LIBRE, la vitesse reste inchangée
-        else if (terrain != NatureTerrain.HABITAT && terrain != NatureTerrain.TERRAIN_LIBRE) {
-            vitesse = 0; // Le robot ne peut pas se déplacer sur d'autres types de terrain
-        }
-        // Sinon, on garde la vitesse de base du robot
-        else {
-            vitesse = vitesseBase;
+            vitesse = vitesseBase / 2; // Réduction de la vitesse de moitié dans une forêt
+        } else if (terrain != NatureTerrain.HABITAT && terrain != NatureTerrain.TERRAIN_LIBRE) {
+            vitesse = 0; // Le robot ne peut pas se déplacer sur d'autres terrains
+        } else {
+            vitesse = vitesseBase; // Maintien de la vitesse de base pour les autres terrains
         }
     }
 
-    // Méthode pour définir la vitesse du robot. Elle lance une exception si la vitesse dépasse 80 km/h.
+    /**
+     * Définit la vitesse actuelle du robot.
+     * 
+     * <p>La vitesse ne peut pas dépasser 80 km/h. Si la vitesse donnée dépasse cette limite, une exception est lancée.</p>
+     * 
+     * @param vitesse La nouvelle vitesse du robot en km/h.
+     * @throws IllegalArgumentException Si la vitesse dépasse 80 km/h.
+     */
     @Override
     public void setVitesse(double vitesse) {
         if (vitesse > 80) {
-            throw new IllegalArgumentException("La vitesse du robot est supérieure à 80 km/h"); // Lancer une exception si la vitesse est trop élevée
+            throw new IllegalArgumentException("La vitesse du robot est supérieure à 80 km/h"); // Exception si la vitesse est trop élevée
         } else {
-            this.vitesse = vitesse; // Sinon, on définit la vitesse
+            this.vitesse = vitesse; // Si la vitesse est valide, elle est définie
         }
     }
 
-    // Méthode pour définir la vitesse de base du robot. Elle lance une exception si la vitesse dépasse 80 km/h.
+    /**
+     * Définit la vitesse de base du robot.
+     * 
+     * <p>La vitesse de base ne peut pas dépasser 80 km/h. Si la vitesse dépasse cette limite, une exception est lancée.</p>
+     * 
+     * @param vitesse La nouvelle vitesse de base du robot en km/h.
+     * @throws IllegalArgumentException Si la vitesse dépasse 80 km/h.
+     */
     public void setVitesseBase(double vitesse) {
         if (vitesse > 80) {
-            throw new IllegalArgumentException("La vitesse du robot est supérieure à 80 km/h"); // Vérifie si la vitesse est supérieure à la limite autorisée
+            throw new IllegalArgumentException("La vitesse du robot est supérieure à 80 km/h"); // Vérifie si la vitesse dépasse la limite
         } else {
             this.vitesse = vitesse; // Si la vitesse est valide, on la définit
-            this.vitesseBase = vitesse; // La vitesse de base est également mise à jour
+            this.vitesseBase = vitesse; // Mise à jour de la vitesse de base
         }
     }
 
-    // Méthode pour obtenir la capacité maximale du réservoir d'eau du robot (2000 litres)
+    /**
+     * Récupère la capacité maximale du réservoir d'eau du robot.
+     * 
+     * @return La capacité maximale du réservoir, qui est de 2000 unités d'eau.
+     */
     @Override
     public int getCapaciteMaxReservoir() {
-        return 2000; // La capacité du réservoir est de 2000
+        return 2000; // La capacité maximale du réservoir est de 2000
     }
 
-    // Méthode pour calculer le temps nécessaire pour remplir le réservoir avec un volume donné
+    /**
+     * Calcule le temps nécessaire pour remplir le réservoir avec un volume donné.
+     * 
+     * <p>Le temps nécessaire pour remplir le réservoir est de 0.15 heures (soit 9 minutes) par unité de volume.</p>
+     * 
+     * @param vol Le volume d'eau à ajouter au réservoir.
+     * @return Le temps nécessaire pour remplir le réservoir en heures.
+     */
     @Override
     public double getTempsRemplissage(int vol) {
-        return vol * 0.15; // Le temps nécessaire pour remplir le réservoir est 0.15 heures (9 minutes) par unité de volume
+        return vol * 0.15; // Le temps de remplissage est de 0.15 heures par unité de volume
     }
 
-    // Méthode qui retourne le type du robot sous forme de chaîne de caractères
+    /**
+     * Récupère le type du robot sous forme de chaîne de caractères.
+     * 
+     * @return Le type de robot, qui est "RobotAChenilles" pour cette classe.
+     */
     @Override
     public String getType() {
-        return "RobotAChenilles"; // Retourne le nom du type de robot
+        return "RobotAChenilles"; // Retourne le type spécifique du robot
     }
 }

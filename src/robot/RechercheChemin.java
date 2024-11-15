@@ -2,6 +2,9 @@ package robot;
 import carte.*;
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
+/**
+ * Classe représentant la recherche du chemin le plus court.
+ */
 
 public class RechercheChemin {
     private final Carte carte;  // Référence à la carte sur laquelle se fait la recherche de chemin
