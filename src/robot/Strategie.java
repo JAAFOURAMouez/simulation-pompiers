@@ -26,8 +26,6 @@ public class Strategie {
      * @param donnes      Instance de DonneeSimulation contenant la carte, les robots, les incendies et les cases d'eau.
      * @param simulateur  Instance de Simulateur utilisée pour planifier les événements.
      */
-
-
     public void chefPompier(DonneeSimulation donnes, Simulateur simulateur) {
         robots = donnes.getRobots();
         // Trie les incendies par proximité
@@ -172,7 +170,6 @@ public class Strategie {
      * @param casesEau   Liste des cases contenant de l'eau.
      * @return           Une paire contenant la case d'eau la plus proche et le temps pour y accéder.
      */
-
     SimpleEntry<Case, Double> plusProche(DonneeSimulation donnes, Case depart, Robot robot, List<Case> casesEau) {
         double minEau = Double.MAX_VALUE;  // Initialisation du temps minimal pour l'eau la plus proche
         double tempsEau;
@@ -226,7 +223,6 @@ public class Strategie {
      * @param donnes  Instance de DonneeSimulation contenant la liste des incendies.
      * @return        Une liste triée des incendies par ordre de proximité.
      */
-    
     public List<Incendie> trierIncendiesParProximite(DonneeSimulation donnes) {
         incendies = donnes.getIncendies();  // Récupère la liste des incendies
     
@@ -250,14 +246,14 @@ public class Strategie {
     }
     
 
-/**
+    /**
      * Trouve l'incendie le plus proche d'un incendie donné parmi une liste d'incendies restants.
      *
      * @param incendieActuel      L'incendie de référence.
      * @param incendiesRestants   Liste des incendies restants à évaluer.
      * @return                    L'incendie le plus proche de l'incendie de référence.
      */
-        private Incendie trouverIncendieLePlusProche(Incendie incendieActuel, List<Incendie> incendiesRestants) {
+    private Incendie trouverIncendieLePlusProche(Incendie incendieActuel, List<Incendie> incendiesRestants) {
         double distanceMin = Double.MAX_VALUE;
         Incendie incendieLePlusProche = null;
 
@@ -271,14 +267,14 @@ public class Strategie {
         return incendieLePlusProche;
     }
 
- /**
+    /**
      * Calcule la distance entre deux cases en utilisant la distance euclidienne.
      *
      * @param c1  Première case.
      * @param c2  Deuxième case.
      * @return    La distance entre les deux cases.
      */
-        private double calculerDistance(Case c1, Case c2) {
+    private double calculerDistance(Case c1, Case c2) {
         int dx = c1.getLigne() - c2.getLigne();
         int dy = c1.getColonne() - c2.getColonne();
         return dx * dx + dy * dy;
