@@ -2,11 +2,18 @@ package robot;
 import carte.*;
 
 public class EtatDetails {
-    private Double temps;
+    private final Double temps;
     private Case caseAssociee;
     private int reservoir;
     private final long tempsCour;
-
+    /**
+     * Constructeur de la classe EtatDetails.
+     * 
+     * @param temps         Temps estimé en double (peut représenter le temps de déplacement ou d'intervention)
+     * @param caseAssociee  La case associée à cet état (position actuelle du robot)
+     * @param reservoir     La quantité d'eau restante dans le réservoir du robot
+     * @param tempsCour     Temps courant (timestamp pour le suivi des événements)
+     */
     public EtatDetails(Double temps, Case caseAssociee, int reservoir, long tempsCour) {
         this.temps = temps;
         this.caseAssociee = caseAssociee;
@@ -15,16 +22,12 @@ public class EtatDetails {
 
     }
 
-    public Double gettemps() {
+    public Double getTemps() {
         return temps;
     }
-
-    public long gettempsCour() {
+    
+    public long getTempsCour() {
         return tempsCour;
-    }
-
-    public void settemps(Double temps) {
-        this.temps = temps;
     }
 
     public Case getCaseAssociee() {
@@ -35,11 +38,11 @@ public class EtatDetails {
         this.caseAssociee = caseAssociee;
     }
 
-    public int getreservoir() {
+    public int getReservoir() {
         return reservoir;
     }
 
-    public void setreservoir(int reservoir) {
+    public void setReservoir(int reservoir) {
         this.reservoir = reservoir;
     }
 }

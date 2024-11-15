@@ -3,12 +3,15 @@ package carte;
 import robot.Robot;
 
 public class Incendie {
-    private Case position;
-    private int intensite;
+    private final Case position; // Position de l'incendie sur la carte
+    private int intensite; // Intensité de l'incendie (mesurée en quantité d'eau nécessaire pour l'éteindre)
+    
+    // Constructeur pour initialiser un incendie avec sa position et son intensité
     public Incendie(Case position, int intensite){
         this.position=position;
         this.intensite=intensite;
     }
+    // Méthode pour éteindre l'incendie avec une certaine quantité d'eau
     public void eteindre(int quantiteEau){
         if(quantiteEau>0){
             this.intensite-=quantiteEau;
@@ -16,12 +19,6 @@ public class Incendie {
                 this.intensite=0;
             }
         }
-    }
-    public void setPosition(Case position) {
-        this.position = position;
-    }
-    public boolean estEteint(){
-        return this.intensite==0;
     }
     public Case getPosition(){
         return position;
@@ -33,6 +30,13 @@ public class Incendie {
     public void setIntensite(int intensite){
         this.intensite=intensite;
     }
+    /**
+     * Calcule le temps d'intervention d'un robot pour éteindre l'incendie en fonction de son type.
+     * 
+     * @param robot L'objet robot qui intervient pour éteindre l'incendie.
+     * @param vol Volume d'eau utilisé par le robot.
+     * @return Le temps nécessaire pour éteindre l'incendie en fonction du type du robot.
+     */
     public double tempsIntervention(Robot robot,int vol){
         double tempsIntervention;
         switch (robot.getType()) {
