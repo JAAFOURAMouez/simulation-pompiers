@@ -18,7 +18,7 @@ compile:
 	@echo "\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-"
 	@echo "Pour tester la lecture de donnees, il suffit d'utiliser la commande"
 	@echo "make test MAP=nom_map.map"
-	@echo "Exemple: make run MAP=desert.map\n"
+	@echo "Exemple: make test MAP=desert.map\n"
 
 # Default target for running TestSimulateur with a specified map
 run:

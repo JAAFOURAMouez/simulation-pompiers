@@ -92,8 +92,8 @@ public class Strategie {
                     
                     // Gestion des allers-retours pour récupérer de l'eau
                     if (nbAllerRetour > 1) {
-                        SimpleEntry<Case, Double> closestWaterToFire = plusProche(donnes, incendies.get(i).getPosition(), robot, casesEau);
-                        double minEauFeu = closestWaterToFire.getValue();
+                        SimpleEntry<Case, Double> eauPlusProcheFeu = plusProche(donnes, incendies.get(i).getPosition(), robot, casesEau);
+                        double minEauFeu = eauPlusProcheFeu.getValue();
                         tempsTotal += ((2 * minEauFeu + tempsRemplissage) * (nbAllerRetour - 1));
                     }
 
@@ -107,7 +107,7 @@ public class Strategie {
                 }
             }
             // Logique de déplacement du robot choisi et d'intervention sur l'incendie  
-            int volumerobotOptimal;
+            int volumeRobotOptimal;
             t = etat.get(robotOptimal).getTempsCour();
             if (remplir) {
                 // Le robot doit se rendre à l'eau, se remplir et ensuite éteindre l'incendie
@@ -120,8 +120,8 @@ public class Strategie {
 
                 // Le robot se rend ensuite à l'incendie pour l'éteindre
                 t += robotOptimal.deplacerVersCase(etat.get(robotOptimal).getCaseAssociee(), destination, t + 1);
-                volumerobotOptimal = Math.min(etat.get(robotOptimal).getReservoir(), incendies.get(i).getIntensite());
-                t+=incendies.get(i).tempsIntervention(robotOptimal, volumerobotOptimal);
+                volumeRobotOptimal = Math.min(etat.get(robotOptimal).getReservoir(), incendies.get(i).getIntensite());
+                t+=incendies.get(i).tempsIntervention(robotOptimal, volumeRobotOptimal);
                 Intervention intervention = new Intervention(robotOptimal, incendies.get(i), t);
 
                 // Mise à jour de l'état du robot après l'intervention
@@ -138,8 +138,8 @@ public class Strategie {
                     etat.put(robotOptimal, new EtatDetails(minTemps, plusProche(donnes, incendies.get(i).getPosition(), robotOptimal, casesEau).getKey(), Math.min(incendies.get(i).getIntensite(), robotOptimal.getCapaciteMaxReservoir()), t));
                     simulateur.ajouteEvenement(remplissageEau);
                     t += robotOptimal.deplacerVersCase(etat.get(robotOptimal).getCaseAssociee(), destination, t + 1);
-                    volumerobotOptimal = Math.min(etat.get(robotOptimal).getReservoir(), incendies.get(i).getIntensite());
-                    t+=incendies.get(i).tempsIntervention(robotOptimal, volumerobotOptimal);
+                    volumeRobotOptimal = Math.min(etat.get(robotOptimal).getReservoir(), incendies.get(i).getIntensite());
+                    t+=incendies.get(i).tempsIntervention(robotOptimal, volumeRobotOptimal);
                     intervention= new Intervention(robotOptimal, incendies.get(i), t);
 
                     etat.put(robotOptimal, new EtatDetails(minTemps, destination, etat.get(robotOptimal).getReservoir() - Math.min(incendies.get(i).getIntensite(), robotOptimal.getCapaciteMaxReservoir()), t));
@@ -149,8 +149,8 @@ public class Strategie {
             }else {
                 t += robotOptimal.deplacerVersCase(etat.get(robotOptimal).getCaseAssociee(), destination, t + 1);
                 t+=robotOptimal.getTempsRemplissage(robotOptimal.getCapaciteMaxReservoir() -  etat.get(robotOptimal).getReservoir());
-                volumerobotOptimal = Math.min(etat.get(robotOptimal).getReservoir(), incendies.get(i).getIntensite());
-                t+=incendies.get(i).tempsIntervention(robotOptimal, volumerobotOptimal);
+                volumeRobotOptimal = Math.min(etat.get(robotOptimal).getReservoir(), incendies.get(i).getIntensite());
+                t+=incendies.get(i).tempsIntervention(robotOptimal, volumeRobotOptimal);
                 Intervention intervention= new Intervention(robotOptimal, incendies.get(i), t);
 
                 etat.put(robotOptimal, new EtatDetails(minTemps, destination, etat.get(robotOptimal).getReservoir() - incendies.get(i).getIntensite(), t));
@@ -159,7 +159,6 @@ public class Strategie {
            
         }
     }
-
 
      /**
      * Trouve la case d'eau la plus proche pour un robot donné à partir d'une position de départ.
@@ -245,7 +244,6 @@ public class Strategie {
         return incendiesTries;  // Retourne la liste triée des incendies
     }
     
-
     /**
      * Trouve l'incendie le plus proche d'un incendie donné parmi une liste d'incendies restants.
      *

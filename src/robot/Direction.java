@@ -1,14 +1,8 @@
 package robot;
 
 /**
- * Enumération représentant les différentes directions possibles sur la carte.
- * Les directions sont définies par les points cardinaux :
- * <ul>
- * <li><b>NORD</b> : en haut, vers le nord.</li>
- * <li><b>SUD</b> : en bas, vers le sud.</li>
- * <li><b>EST</b> : à droite, vers l'est.</li>
- * <li><b>OUEST</b> : à gauche, vers l'ouest.</li>
- * </ul>
+ * Enumération représentant les quatre directions cardinales.
+ * Chaque direction correspond à un point de la boussole par rapport à la carte.
  */
 public enum Direction {
 
